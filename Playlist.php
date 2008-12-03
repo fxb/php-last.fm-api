@@ -64,51 +64,96 @@ class Playlist {
 		return $this->streamable;
 	}
 	
+	/** Add a track to a Last.fm user's playlist.
+	 * 
+	 * @param	string	id			The ID of the playlist - this is available in user.getPlaylists.
+	 * @param	string	artist		The artist name that corresponds to the track to be added.
+	 * @param	string	track		The track name to add to the playlist.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	boolean				true on success or false on failure.
+	 */
 	public static function addTrack($id, $artist, $track, $session){
-		$xml = Caller::getInstance()->signedCall('playlist.addTrack', array(
+		$response = Caller::getInstance()->signedCall('playlist.addTrack', array(
 			'playlistID' => $id,
 			'artist'     => $artist,
-			'track'      => $track,
-			'api_key'    => $session->getApiKey(),
-			'sk'         => $session->getKey()
-		), $session->getApiSecret(), 'POST');
+			'track'      => $track
+		), $session, 'POST');
 		
-		return $xml;
+		return $response;
 	}
 	
-	public static function fetch($playlist, $streaming, $fod, $apiKey){
-		$xml = Caller::getInstance()->call('playlist.fetch', array(
-			'playlistURL' => $playlist,
-			'streaming'   => $streaming,
-			'fod'         => $fod, // free on demand
-			'api_key'     => $apiKey // anonymous
-		));
+	/** Create a Last.fm playlist on behalf of a user.
+	 * 
+	 * @param	string	title		Title for the playlist.
+	 * @param	string	description	Description for the playlist.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	Playlist			A Playlist object or false on failure.
+	 */
+	public static function create($title = null, $description = null, $session){
+		$xml = Caller::getInstance()->call('playlist.create', array(
+			'title'       => $title,
+			'description' => $description
+		), $session , 'POST');
 		
 		if($xml !== false){
-			return self::fromSimpleXMLElement($xml);
+			return Playlist::fromSimpleXMLElement($xml);
 		}
 		else{
 			return false;
 		}
 	}
 	
-	public static function fetchWithSession($playlist, $streaming, $fod, $session){
+	/** Fetch XSPF playlists using a last.fm playlist url.
+	 * 
+	 * @param	string	playlist	A lastfm protocol playlist url ('lastfm://playlist/...').
+	 * @param	string	streaming	Weather to fetch a playlist for streaming.
+	 * @param	string	fod			Weather to fetch a playlist with free on demand tracks.
+	 * @return	Playlist			A Playlist object or false on failure.
+	 */
+	public static function fetch($playlist, $streaming = null, $fod = null){
 		$xml = Caller::getInstance()->call('playlist.fetch', array(
 			'playlistURL' => $playlist,
 			'streaming'   => $streaming,
-			'fod'         => $fod, // free on demand
-			'api_key'     => $session->getApiKey(),
-			'sk'          => $session->getKey() // user bound
+			'fod'         => $fod
 		));
 		
 		if($xml !== false){
-			return self::fromSimpleXMLElement($xml);
+			return Playlist::fromSimpleXMLElement($xml);
 		}
 		else{
 			return false;
 		}
 	}
 	
+	/** Fetch XSPF playlists using a last.fm playlist url and a session.
+	 * 
+	 * @param	string	playlist	A lastfm protocol playlist url ('lastfm://playlist/...').
+	 * @param	string	streaming	Weather to fetch a playlist for streaming.
+	 * @param	string	fod			Weather to fetch a playlist with free on demand tracks.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	Playlist			A Playlist object or false on failure.
+	 */
+	public static function fetchWithSession($playlist, $streaming = null, $fod = null, $session){
+		$xml = Caller::getInstance()->call('playlist.fetch', array(
+			'playlistURL' => $playlist,
+			'streaming'   => $streaming,
+			'fod'         => $fod,
+			'sk'          => $session->getKey()
+		));
+		
+		if($xml !== false){
+			return Playlist::fromSimpleXMLElement($xml);
+		}
+		else{
+			return false;
+		}
+	}
+	
+	/** Create a Playlist object from a SimpleXMLElement.
+	 * 
+	 * @param	SimpleXMLElement	xml	A SimpleXMLElement.
+	 * @return	Playlist				A Playlist object.
+	 */
 	public static function fromSimpleXMLElement(SimpleXMLElement $xml){
 		$tracks = array();
 		

@@ -1,12 +1,31 @@
 <?
 
+/** Provides a method for comparing music tastes.
+ *
+ * @package	de.felixbruns.lastfm.api
+ * @author  Felix Bruns <felixbruns@web.de>
+ * @version	1.0
+ */
 class Tasteometer {
+	/** Possible comparison types.
+	 *
+	 * @var integer
+	 */
 	const COMPARE_USER    = 'user';
 	const COMPARE_ARTIST  = 'artists';
 	const COMPARE_MYSPACE = 'myspace';
 	
-	public static function compare($type1, $type2, $value1, $value2, $limit,
-								   $apiKey){
+	/** Get a Tasteometer score from two inputs, along with a list of shared artists. If the input is a User or a Myspace URL, some additional information is returned.
+	 * 
+	 * @param	integer	type1	A Tasteometer comparison type.
+	 * @param	integer	type2	A Tasteometer comparison type.
+	 * @param	mixed	value1	A last.fm username, an array of artist names or a myspace profile URL.
+	 * @param	mixed	value2	A last.fm username, an array of artist names or a myspace profile URL.
+	 * @param	integer	limit	How many shared artists to display (default = 5).
+	 * @return	array			An array containing comparison results, input information and shared artists.
+	 */
+	public static function compare($type1, $type2, $value1, $value2, $limit = null){
+		/* Handle arrays of artist names. */
 		if(is_array($value1)){
 			$value1 = implode(',', $value1);
 		}
@@ -15,25 +34,32 @@ class Tasteometer {
 			$value2 = implode(',', $value2);
 		}
 		
+		/* API call. */
 		$xml = Caller::getInstance()->call('tasteometer.compare', array(
-			'type1'   => $type1,
-			'type2'   => $type2,
-			'value1'  => $value1,
-			'value2'  => $value2,
-			'limit'   => $limit,
-			'api_key' => $apiKey
+			'type1'  => $type1,
+			'type2'  => $type2,
+			'value1' => $value1,
+			'value2' => $value2,
+			'limit'  => $limit
 		));
 		
+		/* Get shared artists. */
 		$artists = array();
 		
 		foreach($xml->result->artists->children() as $artist){
 			$artists[] = Artist::fromSimpleXMLElement($artist);
 		}
 		
-		/* TODO: Return a Comparison object, including input element. */
+		/* Get input information. */
+		$inputs = array();
+		
+		foreach($xml->input->children() as $input){
+			$inputs[] = User::fromSimpleXMLElement($input);
+		}
 		
 		return array(
 			'score'   => Util::toFloat($xml->result->score),
+			'input'   => $inputs,
 			'artists' => $artists
 		);
 	}

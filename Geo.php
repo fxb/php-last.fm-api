@@ -1,12 +1,23 @@
 <?
 
 class Geo {
-	public static function getEvents($location, $distance, $page, $apiKey){
+	/** Get all events in a specific location by country or city name.
+	 * 
+	 * @param	string	location	Specifies a location to retrieve events for (service returns nearby events by default).
+	 * @param	float	lat			Specifies a latitude value to retrieve events for (service returns nearby events by default).
+	 * @param	float	long		Specifies a longitude value to retrieve events for (service returns nearby events by default).
+	 * @param	integer	distance	Find events within a specified distance.
+	 * @param	integer	page		Display more results by pagination.
+	 * @return	array				An array of Artist objects.
+	 */
+	public static function getEvents($location = '', $lat = null, $long = null,
+									 $distance = null, $page = null){
 		$xml = Caller::getInstance()->call('geo.getEvents', array(
 			'location' => $location,
+			'lat'      => $lat,
+			'long'     => $long,
 			'distance' => $distance,
-			'page'     => $page,
-			'api_key'  => $apiKey
+			'page'     => $page
 		));
 		
 		$events = array();
@@ -27,10 +38,14 @@ class Geo {
 		);
 	}
 	
-	public static function getTopArtists($country, $apiKey){
+	/** Get top artists by country.
+	 * 
+	 * @param	string	country		A country name, as defined by the ISO 3166-1 country names standard.
+	 * @return	array				An array of Artist objects.
+	 */
+	public static function getTopArtists($country){
 		$xml = Caller::getInstance()->call('geo.getTopArtists', array(
-			'country' => $country,
-			'api_key' => $apiKey
+			'country' => $country
 		));
 		
 		$artists = array();
@@ -42,13 +57,16 @@ class Geo {
 		return $artists;
 	}
 	
-	public static function getTopTracks($country, $location, $apiKey){
-		// NOTE: doesn't work
-		
+	/** Get top tracks by country.
+	 * 
+	 * @param	string	country		A country name, as defined by the ISO 3166-1 country names standard.
+	 * @param	string	location	A metro name, to fetch the charts for (must be within the country specified).
+	 * @return	array				An array of Track objects.
+	 */
+	public static function getTopTracks($country, $location){
 		$xml = Caller::getInstance()->call('geo.getTopTracks', array(
 			'country'  => $country,
-			'location' => $location,
-			'api_key'  => $apiKey
+			'location' => $location
 		));
 		
 		$tracks = array();

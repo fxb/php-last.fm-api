@@ -1,12 +1,24 @@
 <?
 
-class Group {
-	public static function getWeeklyAlbumChart($group, $from, $to, $apiKey){
+/** Provides different methods to query group information.
+ *
+ * @package	de.felixbruns.lastfm.api
+ * @author  Felix Bruns <felixbruns@web.de>
+ * @version	1.0
+ */
+class Group {	
+	/** Get an album chart for a group, for a given date range. If no date range is supplied, it will return the most recent album chart for this group.
+	 * 
+	 * @param	string	group	The last.fm group name to fetch the charts of.
+ 	 * @param	string	from	The date at which the chart should start from. See {@link de.felixbruns.lastfm.Group#getWeeklyChartList Group::getWeeklyChartList} for more.
+	 * @param	string	to		The date at which the chart should end on. See {@link de.felixbruns.lastfm.Group#getWeeklyChartList Group::getWeeklyChartList} for more.
+	 * @return	array			An array of Album objects.
+	 */
+	public static function getWeeklyAlbumChart($group, $from = null, $to = null){
 		$xml = Caller::getInstance()->call('group.getWeeklyAlbumChart', array(
-			'group'   => $group,
-			'from'    => $from,
-			'to'      => $to,
-			'api_key' => $apiKey
+			'group' => $group,
+			'from'  => $from,
+			'to'    => $to
 		));
 		
 		$albums = array();
@@ -18,12 +30,18 @@ class Group {
 		return $albums;
 	}
 	
-	public static function getWeeklyArtistChart($group, $from, $to, $apiKey){
+	/** Get an artist chart for a group, for a given date range. If no date range is supplied, it will return the most recent album chart for this group.
+	 * 
+	 * @param	string	group	The last.fm group name to fetch the charts of.
+ 	 * @param	string	from	The date at which the chart should start from. See {@link de.felixbruns.lastfm.Group#getWeeklyChartList Group::getWeeklyChartList} for more.
+	 * @param	string	to		The date at which the chart should end on. See {@link de.felixbruns.lastfm.Group#getWeeklyChartList Group::getWeeklyChartList} for more.
+	 * @return	array			An array of Artist objects.
+	 */
+	public static function getWeeklyArtistChart($group, $from = null, $to = null){
 		$xml = Caller::getInstance()->call('group.getWeeklyArtistChart', array(
-			'group'   => $group,
-			'from'    => $from,
-			'to'      => $to,
-			'api_key' => $apiKey
+			'group' => $group,
+			'from'  => $from,
+			'to'    => $to
 		));
 		
 		$artists = array();
@@ -35,10 +53,14 @@ class Group {
 		return $artists;
 	}
 	
-	public static function getWeeklyChartList($group, $from, $to, $apiKey){
+	/** Get a list of available charts for this group, expressed as date ranges which can be sent to the chart services.
+	 * 
+	 * @param	string	group	The last.fm group name to fetch the charts list for.
+	 * @return	array			An array of from/to unix timestamp pairs.
+	 */
+	public static function getWeeklyChartList($group){
 		$xml = Caller::getInstance()->call('group.getWeeklyChartList', array(
-			'group'   => $group,
-			'api_key' => $apiKey
+			'group' => $group
 		));
 		
 		$chartList = array();
@@ -53,12 +75,18 @@ class Group {
 		return $chartList;
 	}
 	
-	public static function getWeeklyTrackChart($group, $from, $to, $apiKey){
+	/** Get a track chart for a group, for a given date range. If no date range is supplied, it will return the most recent album chart for this group.
+	 * 
+	 * @param	string	group	The last.fm group name to fetch the charts of.
+ 	 * @param	string	from	The date at which the chart should start from. See {@link de.felixbruns.lastfm.Group#getWeeklyChartList Group::getWeeklyChartList} for more.
+	 * @param	string	to		The date at which the chart should end on. See {@link de.felixbruns.lastfm.Group#getWeeklyChartList Group::getWeeklyChartList} for more.
+	 * @return	array			An array of Track objects.
+	 */
+	public static function getWeeklyTrackChart($group, $from = null, $to = null){
 		$xml = Caller::getInstance()->call('group.getWeeklyTrackChart', array(
-			'group'   => $group,
-			'from'    => $from,
-			'to'      => $to,
-			'api_key' => $apiKey
+			'group' => $group,
+			'from'  => $from,
+			'to'    => $to
 		));
 		
 		$tracks = array();

@@ -1,17 +1,91 @@
 <?
 
+/** Represents a track and provides different methods to query track information.
+ *
+ * @package	de.felixbruns.lastfm.api
+ * @author  Felix Bruns <felixbruns@web.de>
+ * @version	1.0
+ */
 class Track extends Media {
+	/** The artist of this track.
+	 *
+	 * @var mixed
+	 */
 	private $artist;
+	
+	/** The album of this track.
+	 *
+	 * @var mixed
+	 */
 	private $album;
+	
+	/** The tracks duration.
+	 *
+	 * @var integer
+	 */
 	private $duration;
+	
+	/** The tracks top tags.
+	 *
+	 * @var array
+	 */
 	private $topTags;
+	
+	/** The tracks id.
+	 *
+	 * @var integer
+	 */
 	private $id;
+	
+	/** The tracks location.
+	 *
+	 * @var string
+	 */
 	private $location;
+	
+	/** Indicates if this track is streamable.
+	 *
+	 * @var boolean
+	 */
 	private $streamable;
+	
+	/** Indicates if this track is a full streamable track.
+	 *
+	 * @var boolean
+	 */
 	private $fullTrack;
+	
+	/** The tracks wiki information.
+	 *
+	 * @var string
+	 */
 	private $wiki;
+	
+	/** The unix timestamp indicating when this track was last played.
+	 *
+	 * @var string
+	 */
 	private $lastPlayed;
 	
+	/** Create an album object.
+	 *
+	 * @param mixed		artist		An artist object or string.
+	 * @param mixed		album		An album object or string.
+	 * @param string	name		Name of this track.
+	 * @param string	mbid		MusicBrainz ID of this track.
+	 * @param string	url			Last.fm URL of this track.
+	 * @param array		images		An array of cover art images of different sizes.
+	 * @param integer	listeners	Number of listeners of this track.
+	 * @param integer	playCount	Play count of this album.
+	 * @param integer	duration	Duration of this track.
+	 * @param array		topTags		An array of top tags of this track.
+	 * @param integer	id			ID of this track.
+	 * @param string	location	Location of this track.
+	 * @param boolean	streamable	Track is streamable.
+	 * @param boolean	fullTrack	Track is a full streamable track.
+	 * @param string	wiki		Wiki data of this track.
+	 * @param integer	lastPlayed	When this track was last played.
+	 */
 	public function __construct($artist, $album, $name, $mbid, $url,
 								array $images, $listeners, $playCount,
 								$duration, array $topTags, $id, $location,
@@ -30,91 +104,154 @@ class Track extends Media {
 		$this->lastPlayed = $lastPlayed;
 	}
 	
+	/** Returns the artist of this track.
+	 * 
+	 * @return	mixed	An {@link de.felixbruns.lastfm.Artist Artist} object or the artists name.
+	 */
 	public function getArtist(){
 		return $this->artist;
 	}
 	
+	/** Returns the album of this track.
+	 * 
+	 * @return	mixed	An {@link de.felixbruns.lastfm.Album Album} object or the albums name.
+	 */
 	public function getAlbum(){
 		return $this->album;
 	}
 	
+	/** Returns the duration of this track.
+	 * 
+	 * @return	integer	The duration of this track.
+	 */
 	public function getDuration(){
 		return $this->duration;
 	}
 	
+	/** Returns the tracks top tags.
+	 * 
+	 * @return	array	An array of tags.
+	 */
 	public function _getTopTags(){
 		return $this->topTags;
 	}
 	
+	/** Returns the ID of this track.
+	 * 
+	 * @return	integer	The ID of this track.
+	 */
 	public function getId(){
 		return $this->id;
 	}
 	
+	/** Returns the location of this track.
+	 * 
+	 * @return	string	The location of this track.
+	 */
 	public function getLocation(){
 		return $this->location;
 	}
 	
+	/** Returns if this track is streamable.
+	 * 
+	 * @return	boolean	A boolean.
+	 */
 	public function isStreamable(){
 		return $this->streamable;
 	}
 	
+	/** Returns if this track is a full streamable track.
+	 * 
+	 * @return	boolean	A boolean.
+	 */
 	public function isFullTrack(){
 		return $this->fullTrack;
 	}
 	
+	/** Returns the wiki data of this track.
+	 * 
+	 * @return	string	Wiki data.
+	 */
 	public function getWiki(){
 		return $this->wiki;
 	}
 	
+	/** Returns the unix timestamp indication when this track was last played.
+	 * 
+	 * @return	integer	A unix timestamp.
+	 */
 	public function getLastPlayed(){
 		return $this->lastPlayed;
 	}
 	
+	/** Tag an album using a list of user supplied tags.
+	 * 
+	 * @param	string	artist		The artist name in question.
+	 * @param	string	track		The track name in question.
+	 * @param	array	tags		A comma delimited list of user supplied tags to apply to this track. Accepts a maximum of 10 tags.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	boolean				true on success or false on failure.
+	 */
 	public static function addTags($artist, $track, array $tags, $session){
-		$xml = Caller::getInstance()->signedCall('track.addTags', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'tags'    => implode(',', $tags),
-			'api_key' => $session->getApiKey(),
-			'sk'      => $session->getKey()
-		), $session->getApiSecret(), 'POST');
+		$response = Caller::getInstance()->signedCall('track.addTags', array(
+			'artist' => $artist,
+			'track'  => $track,
+			'tags'   => implode(',', $tags)
+		), $session, 'POST');
 		
-		return $xml;
+		return $response;
 	}
 	
+	/** Ban a track for a given user profile. This needs to be supplemented with a scrobbling submission containing the 'ban' rating (see the audioscrobbler API).
+	 * 
+	 * @param	string	artist		An artist name.
+	 * @param	string	track		A track name.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	boolean				true on success or false on failure.
+	 */
 	public static function ban($artist, $track, $session){
-		$xml = Caller::getInstance()->signedCall('track.ban', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'api_key' => $session->getApiKey(),
-			'sk'      => $session->getKey()
-		), $session->getApiSecret(), 'POST');
+		$response = Caller::getInstance()->signedCall('track.ban', array(
+			'artist' => $artist,
+			'track'  => $track
+		), $session, 'POST');
 		
-		return $xml;
+		return $response;
 	}
 	
-	public static function getInfo($artist, $track, $mbid, $apiKey){
+	/** Get the metadata for a track on Last.fm using the artist/track name or a MusicBrainz id.
+	 * 
+	 * @param	string	artist	The artist name in question.
+	 * @param	string	track	The track name in question.
+	 * @param	string	mbid	The MusicBrainz ID for the track.
+	 * @return	mixed			A Track object on success or false on failure.
+	 */
+	public static function getInfo($artist, $track, $mbid = null){
 		$xml = Caller::getInstance()->call('track.getInfo', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'mbid'    => $mbid,
-			'api_key' => $apiKey
+			'artist' => $artist,
+			'track'  => $track,
+			'mbid'   => $mbid
 		));
 		
 		if($xml !== false){
-			return self::fromSimpleXMLElement($xml);
+			return Track::fromSimpleXMLElement($xml);
 		}
 		else{
 			return false;
 		}
 	}
 	
-	public static function getSimilar($artist, $track, $mbid, $apiKey){
+	/** Get the similar tracks for this track on Last.fm, based on listening data.
+	 * 
+	 * @param	string	artist	The artist name in question.
+	 * @param	string	track	The track name in question.
+	 * @param	string	mbid	The MusicBrainz ID for the track.
+	 * @return	array			An array of Track objects.
+	 */
+	public static function getSimilar($artist, $track, $mbid = null){
 		$xml = Caller::getInstance()->call('track.getSimilar', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'mbid'    => $mbid,
-			'api_key' => $apiKey
+			'artist' => $artist,
+			'track'  => $track,
+			'mbid'   => $mbid
 		));
 		
 		$tracks = array();
@@ -126,13 +263,18 @@ class Track extends Media {
 		return $tracks;
 	}
 	
+	/** Get the tags applied by an individual user to a track on Last.fm.
+	 * 
+	 * @param	string	artist	The artist name in question.
+	 * @param	string	track	The track name in question.
+	 * @param	Session	session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	array			An array of Tag objects.
+	 */
 	public static function getTags($artist, $track, $session){
 		$xml = Caller::getInstance()->signedCall('track.getTags', array(
 			'artist'  => $artist,
-			'track'   => $track,
-			'api_key' => $session->getApiKey(),
-			'sk'      => $session->getKey()
-		), $session->getApiSecret());
+			'track'   => $track
+		), $session);
 		
 		$tags = array();
 		
@@ -143,12 +285,18 @@ class Track extends Media {
 		return $tags;
 	}
 	
-	public static function getTopFans($artist, $track, $mbid, $apiKey){
+	/** Get the top fans for this track on Last.fm, based on listening data. Supply either track & artist name or MusicBrainz id. 
+	 * 
+	 * @param	string	artist	The artist name in question.
+	 * @param	string	track	The track name in question.
+	 * @param	string	mbid	The MusicBrainz ID for the track.
+	 * @return	array			An array of User objects.
+	 */
+	public static function getTopFans($artist, $track, $mbid = null){
 		$xml = Caller::getInstance()->call('track.getTopFans', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'mbid'    => $mbid,
-			'api_key' => $apiKey
+			'artist' => $artist,
+			'track'  => $track,
+			'mbid'   => $mbid
 		));
 		
 		$users = array();
@@ -160,12 +308,18 @@ class Track extends Media {
 		return $users;
 	}
 	
-	public static function getTopTags($artist, $track, $mbid, $apiKey){
+	/** Get the top tags for this track on Last.fm, ordered by tag count. Supply either track & artist name or mbid.
+	 * 
+	 * @param	string	artist	The artist name in question.
+	 * @param	string	track	The track name in question.
+	 * @param	string	mbid	The MusicBrainz ID for the track.
+	 * @return	array			An array of Tag objects.
+	 */
+	public static function getTopTags($artist, $track, $mbid = null){
 		$xml = Caller::getInstance()->call('track.getTopTags', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'mbid'    => $mbid,
-			'api_key' => $apiKey
+			'artist' => $artist,
+			'track'  => $track,
+			'mbid'   => $mbid
 		));
 		
 		$tags = array();
@@ -177,36 +331,54 @@ class Track extends Media {
 		return $tags;
 	}
 	
+	/** Love a track for a user profile. This needs to be supplemented with a scrobbling submission containing the 'love' rating (see the audioscrobbler API).
+	 * 
+	 * @param	string	artist		An artist name.
+	 * @param	string	track		A track name.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	boolean				true on success or false on failure.
+	 */
 	public static function love($artist, $track, $session){
 		$xml = Caller::getInstance()->signedCall('track.love', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'api_key' => $session->getApiKey(),
-			'sk'      => $session->getKey()
-		), $session->getApiSecret(), 'POST');
+			'artist' => $artist,
+			'track'  => $track
+		), $session, 'POST');
 		
 		return $xml;
 	}
 	
+	/** Remove a user's tag from a track.
+	 * 
+	 * @param	string	artist	The artist name in question.
+	 * @param	string	track	The track name in question.
+	 * @param	string	tag		A single user tag to remove from this track.
+	 * @param	Session	session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	boolean			true on success or false on failure.
+	 */
 	public static function removeTag($artist, $track, $tag, $session){
-		$xml = Caller::getInstance()->signedCall('track.removeTag', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'tag'     => $tag,
-			'api_key' => $session->getApiKey(),
-			'sk'      => $session->getKey()
-		), $session->getApiSecret(), 'POST');
+		$response = Caller::getInstance()->signedCall('track.removeTag', array(
+			'artist' => $artist,
+			'track'  => $track,
+			'tag'    => $tag
+		), $session, 'POST');
 		
-		return $xml;
+		return $response;
 	}
 	
-	public static function search($artist, $track, $limit, $page, $apiKey){
+	/** Search for a track by track name. Returns track matches sorted by relevance.
+	 * 
+	 * @param	string	track	The track name in question.
+	 * @param	string	artist	Narrow your search by specifying an artist.
+	 * @param	integer	limit	Limit the number of tracks returned at one time. Default (maximum) is 30.
+	 * @param	integer	page	Scan into the results by specifying a page number. Defaults to first page.
+	 * @return	PaginatedResult	A PaginatedResult object.
+	 */
+	public static function search($track, $artist = null, $limit = null, $page = null){
 		$xml = Caller::getInstance()->call('track.search', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'limit'   => $limit,
-			'page'    => $page,
-			'api_key' => $apiKey
+			'artist' => $artist,
+			'track'  => $track,
+			'limit'  => $limit,
+			'page'   => $page
 		));
 		
 		$tracks = array();
@@ -225,25 +397,37 @@ class Track extends Media {
 		);
 	}
 	
-	public static function share($artist, $track, array $recipients, $message,
-								 $session){
-		$xml = Caller::getInstance()->signedCall('track.share', array(
+	/** Share a track twith one or more Last.fm users or other friends.
+	 * 
+	 * @param	string	artist		An artist name.
+	 * @param	string	track		A track name.
+	 * @param	array	recipients	A comma delimited list of email addresses or Last.fm usernames. Maximum is 10.
+	 * @param	string	message		An optional message to send with the recommendation. If not supplied a default message will be used.
+	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+	 * @return	boolean				true on success or false on failure.
+	 */
+	public static function share($artist, $track, array $recipients,
+								 $message = null, $session){
+		$response = Caller::getInstance()->signedCall('track.share', array(
 			'artist'    => $artist,
 			'track'     => $track,
 			'recipient' => implode(',', $recipients),
-			'message'   => $message,
-			'api_key'   => $session->getApiKey(),
-			'sk'        => $session->getKey()
-		), $session->getApiSecret(), 'POST');
+			'message'   => $message
+		), $session, 'POST');
 		
-		return $xml;
+		return $response;
 	}
 	
-	public static function getPlaylist($artist, $track, $apiKey){
+	/** Get track playlist. INOFFICIAL.
+	 * 
+	 * @param	string	artist	An artist name.
+	 * @param	string	track	A track name.
+	 * @return	mixed			A Playlist object on success or false on failure.
+	 */
+	public static function getPlaylist($artist, $track){
 		$xml = Caller::getInstance()->call('track.getPlayerMenu', array(
-			'artist'  => $artist,
-			'track'   => $track,
-			'api_key' => $apiKey
+			'artist' => $artist,
+			'track'  => $track
 		));
 		
 		return Playlist::fetch(
@@ -254,6 +438,11 @@ class Track extends Media {
 		);
 	}
 	
+	/** Create a Track object from a SimpleXMLElement.
+	 * 
+	 * @param	SimpleXMLElement	xml	A SimpleXMLElement.
+	 * @return	Track					A Track object.
+	 */
 	public static function fromSimpleXMLElement(SimpleXMLElement $xml){
 		$images  = array();
 		$topTags = array();
@@ -318,8 +507,8 @@ class Track extends Media {
 			$topTags,
 			Util::toInteger($xml->id),
 			Util::toString($xml->location),
-			Util::toInteger($xml->streamable),
-			Util::toInteger($xml->streamable['fulltrack']),
+			Util::toBoolean($xml->streamable),
+			Util::toBoolean($xml->streamable['fulltrack']),
 			$xml->wiki, // TODO: Wiki object
 			Util::toTimestamp($xml->date)
 		);
