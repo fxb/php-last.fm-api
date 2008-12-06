@@ -8,81 +8,90 @@
  */
 class Auth {
 	/** Returns a last.fm API signature for the given request parameters.
-	 * 
-	 * @param	array	params		Request parameters.
-	 * @param	string	apiSecret	Last.fm API secret.
+	 *
+	 * @param	array	$params		Request parameters.
+	 * @param	string	$apiSecret	Last.fm API secret.
 	 * @return	string				Last.fm API signature.
+	 *
+	 * @static
+	 * @access	public
 	 */
 	public static function getApiSignature(array $params, $apiSecret){
 		ksort($params);
-		
+
 		$string = '';
-		
+
 		foreach($params as $name => $value){
 			$string .= $name . $value;
 		}
-		
+
 		$string .= $apiSecret;
-		
+
 		return md5($string);
 	}
-	
-	/** Returns a mobile session using username and password.
-	 * 
-	 * @param	string	username	Last.fm username.
-	 * @param	string	password	Last.fm password.
-	 * @return	mixed				A Session object or false on failure.
+
+	/** Create a web service session for a user. Used for authenticating a user when the password can be inputted by the user. Only suitable for standalone mobile devices. See the authentication how-to for more.
+	 *
+	 * @param	string	$username	The last.fm username. (Required)
+	 * @param	string	$password	The last.fm password. (Required)
+	 * @return	Session				A Session object.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getMobileSession($username, $password){
 		$xml = Caller::getInstance()->signedCall('auth.getMobileSession', array(
 			'username'  => $username,
 			'authToken' => md5($username . md5($password))
 		));
-		
+
 		return Session::fromSimpleXMLElement($xml);
 	}
-	
+
 	/** Returns a session using an authorized token.
-	 * 
-	 * @param	string	token	Token obtained by {@link de.felixbruns.lastfm.Auth#getToken Auth::getToken}.
-	 * @return	mixed			A Session object or false on failure.
+	 *
+	 * @param	string	$token	A 32-character ASCII hexadecimal MD5 hash returned by step 1 of the authentication process (following the granting of permissions to the application by the user). (Required)
+	 * @return	Session			A Session object.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getSession($token){
 		$xml = Caller::getInstance()->signedCall('auth.getSession', array(
 			'token' => $token
 		));
-		
-		if($xml !== false){
-			return Session::fromSimpleXMLElement($xml);
-		}
-		else{
-			return false;
-		}
+
+		return Session::fromSimpleXMLElement($xml);
 	}
-	
-	/** Returns an unauthorized token.
-	 * 
-	 * @return	string	Token string.
+
+	/** Fetch an unauthorized request token for an API account. This is step 2 of the authentication process for desktop applications. Web applications do not need to use this service.
+	 *
+	 * @return	string	A 32-character ASCII hexadecimal MD5 hash.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getToken(){
 		$xml = Caller::getInstance()->signedCall('auth.getToken');
-		
+
 		return Util::toString($xml);
 	}
-	
-	/** Returns an anonymous web session.
-	 * 
-	 * @return	mixed	A Session object or false on failure.
+
+	/** Used by our flash embeds (on trusted domains) to use a site session cookie to seed a ws session without requiring a password. Uses the site cookie so must be accessed over a *.last.fm domain.
+	 *
+	 * @return	Session	A Session object.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getWebSession(){
 		$xml = Caller::getInstance()->signedCall('auth.getWebSession');
-		
-		if($xml !== false){
-			return Session::fromSimpleXMLElement($xml);
-		}
-		else{
-			return false;
-		}
+
+		return Session::fromSimpleXMLElement($xml);
 	}
 }
 

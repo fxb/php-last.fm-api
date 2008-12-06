@@ -7,314 +7,359 @@
  * @version	1.0
  */
 class Artist extends Media {
-	/** Indicates if this artist is streamable.
+	/** Artist is streamable.
 	 *
 	 * @var boolean
+	 * @access	private
 	 */
 	private $streamable;
-	
+
 	/** Similar artists.
 	 *
 	 * @var array
+	 * @access	private
 	 */
 	private $similar;
-	
+
 	/** Artist tags.
 	 *
 	 * @var array
+	 * @access	private
 	 */
 	private $tags;
-	
+
 	/** The artists biography.
 	 *
 	 * @var array
+	 * @access	private
 	 */
 	private $biography;
-	
+
 	/** Stores a similarity value.
 	 *
 	 * @var float
+	 * @access	private
 	 */
 	private $match;
-	
+
 	/** Create an Artist object.
 	 *
-	 * @param string	name		Name of this artist.
-	 * @param string	mbid		MusicBrainz ID of this artist.
-	 * @param string	url			Last.fm URL of this artist.
-	 * @param array		images		An array of cover art images of different sizes.
-	 * @param boolean	streamable	Is this artist streamable?
-	 * @param integer	listeners	Number of listeners of this artist.
-	 * @param integer	playCount	Play count of this artist.
-	 * @param array		tags		An array of tags of this artist.
-	 * @param array		similar		An array of similar artists.
-	 * @param string	biography	Biography of this artist.
-	 * @param float		match		Similarity value.
+	 * @param string	$name		Name of this artist.
+	 * @param string	$mbid		MusicBrainz ID of this artist.
+	 * @param string	$url		Last.fm URL of this artist.
+	 * @param array		$images		An array of cover art images of different sizes.
+	 * @param boolean	$streamable	Is this artist streamable?
+	 * @param integer	$listeners	Number of listeners of this artist.
+	 * @param integer	$playCount	Play count of this artist.
+	 * @param array		$tags		An array of tags of this artist.
+	 * @param array		$similar	An array of similar artists.
+	 * @param string	$biography	Biography of this artist.
+	 * @param float		$match		Similarity value.
+	 *
+	 * @access	public
 	 */
 	public function __construct($name, $mbid, $url, array $images, $streamable,
 								$listeners, $playCount, array $tags,
 								array $similar, $biography, $match){
 		parent::__construct($name, $mbid, $url, $images, $listeners, $playCount);
-		
+
 		$this->streamable = $streamable;
 		$this->tags       = $tags;
 		$this->similar    = $similar;
 		$this->biography  = $biography;
 		$this->match      = $match;
 	}
-	
+
 	/** Returns if this artists is streamable.
-	 * 
+	 *
 	 * @return	boolean	true if this artist is streamable, otherwise false.
+	 * @access	public
 	 */
 	public function isStreamable(){
 		return $this->streamable;
 	}
-	
+
 	/** Returns similar artists.
-	 * 
+	 *
 	 * @return	array	An array of similar artists.
+	 * @access	public
 	 */
 	public function _getSimilar(){
 		return $this->similar;
 	}
-	
+
 	/** Returns artist tags.
-	 * 
+	 *
 	 * @return	array	An array of tags.
+	 * @access	public
 	 */
 	public function _getTags(){
 		return $this->tags;
 	}
-	
+
 	/** Returns the artists biography.
-	 * 
+	 *
 	 * @return	string	A biography text.
+	 * @access	public
 	 */
 	public function getBiography(){
 		return $this->biography;
 	}
-	
+
 	/** Returns similarity value.
-	 * 
+	 *
 	 * @return	float	A floating-point value from 0.0 to 1.0.
+	 * @access	public
 	 */
 	public function getMatch(){
 		return $this->match;
 	}
-	
-	/** Add tags to this artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	array	tags		Comma separated list of tags.
-	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
-	 * @return	boolean				true on success or false on failure.
+
+	/** Tag an artist with one or more user supplied tags.
+	 *
+	 * @param	string	$artist		The artist name in question. (Required)
+	 * @param	array	$tags		An array of user supplied tags to apply to this artist. Accepts a maximum of 10 tags. (Required)
+	 * @param	Session	$session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}. (Required)
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function addTags($artist, array $tags, Session $session){
-		$response = Caller::getInstance()->signedCall('artist.addTags', array(
+		Caller::getInstance()->signedCall('artist.addTags', array(
 			'artist' => $artist,
 			'tags'   => implode(',', $tags)
 		), $session, 'POST');
-		
-		return $response;
 	}
-	
-	/** Get events of this artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @return	array				An array of Event objects.
+
+	/** Get a list of upcoming events for this artist. Easily integratable into calendars, using the ical standard (see feeds section below).
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @return	array			An array of Event objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getEvents($artist){
 		$xml = Caller::getInstance()->call('artist.getEvents', array(
 			'artist' => $artist
 		));
-		
+
 		$events = array();
-		
+
 		foreach($xml->children() as $event){
 			$events[] = Event::fromSimpleXMLElement($event);
 		}
-		
+
 		return $events;
 	}
-	
-	/** Get artist info.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	string	mbid		MusicBrainz ID.
-	 * @param	string	lang		Preferred language (ISO 639 alpha-2 code). Default: 'en'.
-	 * @return	mixed				An Artist object on success or false on failure.
+
+	/** Get the metadata for an artist on last.fm. Includes biography.
+	 *
+	 * @param	string	$artist	The artist name in question. (Optional)
+	 * @param	string	$mbid	The MusicBrainz ID for the artist. (Optional)
+	 * @param	string	$lang	The language to return the biography in, expressed as an ISO 639 alpha-2 code. (Optional)
+	 * @return	mixed			An Artist object.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
-	public static function getInfo($artist, $mbid = '', $lang = 'en'){
+	public static function getInfo($artist, $mbid = null, $lang = null){
 		$xml = Caller::getInstance()->call('artist.getInfo', array(
 			'artist' => $artist,
 			'mbid'   => $mbid,
 			'lang'   => $lang
 		));
-		
-		if($xml !== false){
-			return Artist::fromSimpleXMLElement($xml);
-		}
-		else{
-			return false;
-		}
+
+		return Artist::fromSimpleXMLElement($xml);
 	}
-	
-	/** Get similar artists.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	string	limit		Limit of artists to return.
-	 * @return	array				An of Artist objects.
+
+	/** Get all the artists similar to this artist.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @param	string	$limit	Limit the number of similar artists returned. (Optional)
+	 * @return	array			An of Artist objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
-	public static function getSimilar($artist, $limit){
+	public static function getSimilar($artist, $limit = null){
 		$xml = Caller::getInstance()->call('artist.getSimilar', array(
 			'artist' => $artist,
 			'limit'  => $limit
 		));
-		
+
 		$artists = array();
-		
+
 		foreach($xml->children() as $artist){
 			$artists[] = Artist::fromSimpleXMLElement($artist);
 		}
-		
+
 		return $artists;
 	}
-	
-	/** Get artist tags.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
+
+	/** Get the tags applied by an individual user to an artist on last.fm.
+	 *
+	 * @param	string	$artist		The artist name in question. (Required)
+	 * @param	Session	$session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}. (Required)
 	 * @return	array				An array of tags.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getTags($artist, Session $session){
 		$xml = Caller::getInstance()->signedCall('artist.getTags', array(
 			'artist' => $artist
 		), $session);
-		
+
 		$tags = array();
-		
+
 		foreach($xml->children() as $tag){
 			$tags[] = Tag::fromSimpleXMLElement($tag);
 		}
-		
+
 		return $tags;
 	}
-	
-	/** Get top albums of an artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @return	array				An array of Album objects.
+
+	/** Get the top albums for an artist on last.fm, ordered by popularity.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @return	array			An array of Album objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getTopAlbums($artist){
 		$xml = Caller::getInstance()->call('artist.getTopAlbums', array(
 			'artist' => $artist
 		));
-		
+
 		$albums = array();
-		
+
 		foreach($xml->children() as $album){
 			$albums[] = Album::fromSimpleXMLElement($album);
 		}
-		
+
 		return $albums;
 	}
-	
-	/** Get top fans of an artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @return	array				An array of User objects.
+
+	/** Get the top fans for an artist on last.fm, based on listening data.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @return	array			An array of User objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getTopFans($artist){
 		$xml = Caller::getInstance()->call('artist.getTopFans', array(
 			'artist' => $artist
 		));
-		
+
 		$fans = array();
-		
+
 		foreach($xml->children() as $fan){
 			$fans[] = User::fromSimpleXMLElement($fan);
 		}
-		
+
 		return $fans;
 	}
-	
-	/** Get artist top tags.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @return	array				An array of tags.
+
+	/** Get the top tags for an artist on last.fm, ordered by popularity.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @return	array			An array of Tag objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getTopTags($artist){
 		$xml = Caller::getInstance()->call('artist.getTopTags', array(
 			'artist' => $artist
 		));
-		
+
 		$tags = array();
-		
+
 		foreach($xml->children() as $tag){
 			$tags[] = Tag::fromSimpleXMLElement($tag);
 		}
-		
+
 		return $tags;
 	}
-	
-	/** Get top tracks of an artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @return	array				An array of Track objects.
+
+	/** Get the top tracks by an artist on last.fm, ordered by popularity.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @return	array			An array of Track objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getTopTracks($artist){
 		$xml = Caller::getInstance()->call('artist.getTopTracks', array(
 			'artist' => $artist
 		));
-		
+
 		$tracks = array();
-		
+
 		foreach($xml->children() as $track){
 			$tracks[] = Track::fromSimpleXMLElement($track);
 		}
-		
+
 		return $tracks;
 	}
-	
-	/** Remove artist tag.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	string	tag			Tag to remove.
-	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
-	 * @return	boolean				true on success or false on failure.
+
+	/** Remove a user's tag from an artist.
+	 *
+	 * @param	string	$artist		The artist name in question. (Required)
+	 * @param	string	$tag		A single user tag to remove from this artist. (Required)
+	 * @param	Session	$session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}. (Required)
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function removeTag($artist, $tag, Session $session){
-		$response = Caller::getInstance()->signedCall('artist.removeTag', array(
+		Caller::getInstance()->signedCall('artist.removeTag', array(
 			'artist' => $artist,
 			'tag'    => $tag
 		), $session, 'POST');
-		
-		return $response;
 	}
-	
-	/** Search for an artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	integer	limit		Limit number of results (default maximum: 30).
-	 * @param	integer	page		Result page number (defaults to first page).
-	 * @return	PaginatedResult		A PaginatedResult object.
+
+	/** Search for an artist by name. Returns artist matches sorted by relevance.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @param	integer	$limit	Limit the number of artists returned at one time. Default (maximum) is 30. (Optional)
+	 * @param	integer	$page	Scan into the results by specifying a page number. Defaults to first page. (Optional)
+	 * @return	PaginatedResult	A PaginatedResult object.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
-	public static function search($artist, $limit, $page){
+	public static function search($artist, $limit = null, $page = null){
 		$xml = Caller::getInstance()->call('artist.search', array(
 			'artist' => $artist,
 			'limit'  => $limit,
 			'page'   => $page
 		));
-		
+
 		$artists = array();
-		
+
 		foreach($xml->artistmatches->children() as $artist){
 			$artists[] = Artist::fromSimpleXMLElement($artist);
 		}
-		
+
 		$opensearch = $xml->children('http://a9.com/-/spec/opensearch/1.1/');
-		
+
 		return new PaginatedResult(
 			Util::toInteger($opensearch->totalResults),
 			Util::toInteger($opensearch->startIndex),
@@ -322,50 +367,59 @@ class Artist extends Media {
 			$artists
 		);
 	}
-	
-	/** Share an artist.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @param	array	recipients	An array of last.fm usernames or e-mail adresses (maximum: 10).
-	 * @param	string	message		An optional message to send.
-	 * @param	Session	session		A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}.
-	 * @return	boolean				true on success or false on failure.
+
+	/** Share an artist with last.fm users or other friends.
+	 *
+	 * @param	string	$artist		The artist to share. (Required)
+	 * @param	array	$recipients	An array email addresses or last.fm usernames. Maximum is 10. (Required)
+	 * @param	string	$message	An optional message to send with the recommendation. If not supplied a default message will be used. (Optional)
+	 * @param	Session	$session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}. (Required)
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
-	public static function share($artist, array $recipients, $message = '', Session $session){
-		$response = Caller::getInstance()->signedCall('artist.share', array(
+	public static function share($artist, array $recipients, $message = null, Session $session){
+		Caller::getInstance()->signedCall('artist.share', array(
 			'artist'    => $artist,
 			'recipient' => implode(',', $recipients),
 			'message'   => $message
 		), $session, 'POST');
-		
-		return $response;
 	}
-	
-	/** Get artist playlist. INOFFICIAL.
-	 * 
-	 * @param	string	artist		Artist name.
-	 * @return	mixed				A Playlist object on success or false on failure.
+
+	/** Get an artist playlist for streaming. INOFFICIAL.
+	 *
+	 * @param	string	$artist	Artist name.
+	 * @return	mixed			A Playlist object on success or false on failure.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
 	 */
 	public static function getPlaylist($artist){
 		$xml = Caller::getInstance()->call('artist.getPlayerMenu', array(
 			'artist' => $artist
 		));
-		
+
 		return Playlist::fetch(Util::toString($xml->playlist->url), true, true);
 	}
-	
-	/** Create an Artist object from a SimpleXMLElement.
-	 * 
-	 * @param	SimpleXMLElement	xml	A SimpleXMLElement.
-	 * @return	Artist					An Artist object.
+
+	/** Create an Artist object from a SimpleXMLElement object.
+	 *
+	 * @param	SimpleXMLElement	$xml	A SimpleXMLElement object.
+	 * @return	Artist						An Artist object.
+	 *
+	 * @static
+	 * @access	public
+	 * @internal
 	 */
 	public static function fromSimpleXMLElement(SimpleXMLElement $xml){
 		$images  = array();
 		$tags    = array();
 		$similar = array();
-		
+
 		/* NOTE: image, image_small... this sucks! */
-		
+
 		if($xml->image){
 			if(count($xml->image) > 1){
 				foreach($xml->image as $image){
@@ -376,23 +430,23 @@ class Artist extends Media {
 				$images[Media::IMAGE_LARGE] = Util::toString($image);
 			}
 		}
-		
+
 		if($xml->image_small){
 			$images[Media::IMAGE_SMALL] = Util::toString($xml->image_small);
 		}
-		
+
 		if($xml->tags){
 			foreach($xml->tags->children() as $tag){
 				$tags[] = Tag::fromSimpleXMLElement($tag);
 			}
 		}
-		
+
 		if($xml->similar){
 			foreach($xml->similar->children() as $artist){
 				$similar[] = Artist::fromSimpleXMLElement($artist);
 			}
 		}
-		
+
 		return new Artist(
 			Util::toString($xml->name),
 			Util::toString($xml->mbid),
