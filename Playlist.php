@@ -222,7 +222,7 @@ class Playlist {
 	 * @throws	Error
 	 */
 	public static function fetch($playlist, $streaming = null, $fod = null, $session = null){
-		if($session == null)
+		if($session == null){
 			$xml = Caller::getInstance()->call('playlist.fetch', array(
 				'playlistURL' => $playlist,
 				'streaming'   => $streaming,
@@ -243,7 +243,7 @@ class Playlist {
 
 	/** Create a Playlist object from a SimpleXMLElement.
 	 *
-	 * @param	SimpleXMLElement	$xml	A SimpleXMLElement.
+	 * @param	SimpleXMLElement	$xml	A SimpleXMLElement object.
 	 * @return	Playlist					A Playlist object.
 	 *
 	 * @static

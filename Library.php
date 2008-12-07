@@ -49,7 +49,7 @@ class Library {
 	 * @access	public
 	 * @throws	Error
 	 */
-	public static function addAlbum($artist, $track, $session){
+	public static function addTrack($artist, $track, $session){
 		Caller::getInstance()->signedCall('library.addTrack', array(
 			'artist' => $artist,
 			'track'  => $track
