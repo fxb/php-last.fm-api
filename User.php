@@ -164,7 +164,7 @@ class User extends Media {
 	 * @return	integer	Number of playlists.
 	 * @access	public
 	 */
-	public function _getPlaylists(){
+	public function getPlaylistCount(){
 		return $this->playlists;
 	}
 

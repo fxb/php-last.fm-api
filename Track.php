@@ -145,10 +145,11 @@ class Track extends Media {
 
 	/** Returns the tracks top tags.
 	 *
-	 * @return	array	An array of tags.
+	 * @return	array	An array of Tag objects.
 	 * @access	public
+	 * @see		getTopTags
 	 */
-	public function _getTopTags(){
+	public function getTrackTopTags(){
 		return $this->topTags;
 	}
 

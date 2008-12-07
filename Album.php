@@ -9,28 +9,28 @@
 class Album extends Media {
 	/** Artist of this album.
 	 *
-	 * @var mixed
+	 * @var		mixed
 	 * @access	private
 	 */
 	private $artist;
 
 	/** Album ID.
 	 *
-	 * @var integer
+	 * @var		integer
 	 * @access	private
 	 */
 	private $id;
 
 	/** Album release date.
 	 *
-	 * @var integer
+	 * @var		integer
 	 * @access	private
 	 */
 	private $releaseDate;
 
 	/** Album top tags.
 	 *
-	 * @var array
+	 * @var		array
 	 * @access	private
 	 */
 	private $topTags;
@@ -65,6 +65,7 @@ class Album extends Media {
 	 *
 	 * @return	mixed	An {@link de.felixbruns.lastfm.Artist Artist} object or the artists name.
 	 * @access	public
+	 * @see		Artist
 	 */
 	public function getArtist(){
 		return $this->artist;
@@ -92,6 +93,7 @@ class Album extends Media {
 	 *
 	 * @return	array	An array of {@link de.felixbruns.lastfm.Tag Tag} objects.
 	 * @access	public
+	 * @see		Tag
 	 */
 	public function getTopTags(){
 		return $this->topTags;
@@ -142,10 +144,11 @@ class Album extends Media {
 
 	/** Get the tags applied by an individual user to an album on last.fm.
 	 *
-	 * @param	string	$artist	The artist name in question. (Required)
-	 * @param	string	$album	The album name in question. (Required)
+	 * @param	string	$artist		The artist name in question. (Required)
+	 * @param	string	$album		The album name in question. (Required)
 	 * @param	Session	$session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}. (Required)
-	 * @return	array			An array of Tag objects.
+	 * @return	array				An array of Tag objects.
+	 * @see		Tag
 	 *
 	 * @static
 	 * @access	public
@@ -191,6 +194,7 @@ class Album extends Media {
 	 * @param	integer	$limit	Limit the number of albums returned at one time. Default (maximum) is 30. (Optional)
 	 * @param	integer	$page	Scan into the results by specifying a page number. Defaults to first page. (Optional)
 	 * @return	PaginatedResult	A PaginatedResult object.
+	 * @see		PaginatedResult
 	 *
 	 * @static
 	 * @access	public
@@ -224,6 +228,7 @@ class Album extends Media {
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @param	string	$album	The album name in question. (Required)
 	 * @return	Playlist		A Playlist object.
+	 * @see		Playlist
 	 *
 	 * @static
 	 * @access	public

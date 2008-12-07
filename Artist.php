@@ -9,35 +9,35 @@
 class Artist extends Media {
 	/** Artist is streamable.
 	 *
-	 * @var boolean
+	 * @var		boolean
 	 * @access	private
 	 */
 	private $streamable;
 
 	/** Similar artists.
 	 *
-	 * @var array
+	 * @var		array
 	 * @access	private
 	 */
 	private $similar;
 
 	/** Artist tags.
 	 *
-	 * @var array
+	 * @var		array
 	 * @access	private
 	 */
 	private $tags;
 
 	/** The artists biography.
 	 *
-	 * @var array
+	 * @var		array
 	 * @access	private
 	 */
 	private $biography;
 
 	/** Stores a similarity value.
 	 *
-	 * @var float
+	 * @var		float
 	 * @access	private
 	 */
 	private $match;
@@ -83,17 +83,19 @@ class Artist extends Media {
 	 *
 	 * @return	array	An array of similar artists.
 	 * @access	public
+	 * @see		getSimilar
 	 */
-	public function _getSimilar(){
+	public function getSimilarArtists(){
 		return $this->similar;
 	}
 
 	/** Returns artist tags.
 	 *
-	 * @return	array	An array of tags.
+	 * @return	array	An array of Tag objects.
 	 * @access	public
+	 * @see		Tag
 	 */
-	public function _getTags(){
+	public function getArtistTags(){
 		return $this->tags;
 	}
 
@@ -136,6 +138,7 @@ class Artist extends Media {
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @return	array			An array of Event objects.
+	 * @see		Event
 	 *
 	 * @static
 	 * @access	public
@@ -160,7 +163,7 @@ class Artist extends Media {
 	 * @param	string	$artist	The artist name in question. (Optional)
 	 * @param	string	$mbid	The MusicBrainz ID for the artist. (Optional)
 	 * @param	string	$lang	The language to return the biography in, expressed as an ISO 639 alpha-2 code. (Optional)
-	 * @return	mixed			An Artist object.
+	 * @return	Artist			An Artist object.
 	 *
 	 * @static
 	 * @access	public
@@ -180,7 +183,8 @@ class Artist extends Media {
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @param	string	$limit	Limit the number of similar artists returned. (Optional)
-	 * @return	array			An of Artist objects.
+	 * @return	array			An array of Artist objects.
+	 * @see		getSimilarArtists
 	 *
 	 * @static
 	 * @access	public
@@ -206,6 +210,7 @@ class Artist extends Media {
 	 * @param	string	$artist		The artist name in question. (Required)
 	 * @param	Session	$session	A session obtained by {@link de.felixbruns.lastfm.Auth#getSession Auth::getSession} or {@link de.felixbruns.lastfm.Auth#getMobileSession Auth::getMobileSession}. (Required)
 	 * @return	array				An array of tags.
+	 * @see		Tag
 	 *
 	 * @static
 	 * @access	public
@@ -229,6 +234,7 @@ class Artist extends Media {
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @return	array			An array of Album objects.
+	 * @see		Album
 	 *
 	 * @static
 	 * @access	public
@@ -252,6 +258,7 @@ class Artist extends Media {
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @return	array			An array of User objects.
+	 * @see		User
 	 *
 	 * @static
 	 * @access	public
@@ -275,6 +282,7 @@ class Artist extends Media {
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @return	array			An array of Tag objects.
+	 * @see		Tag
 	 *
 	 * @static
 	 * @access	public
@@ -298,6 +306,7 @@ class Artist extends Media {
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)
 	 * @return	array			An array of Track objects.
+	 * @see		Track
 	 *
 	 * @static
 	 * @access	public
@@ -340,6 +349,7 @@ class Artist extends Media {
 	 * @param	integer	$limit	Limit the number of artists returned at one time. Default (maximum) is 30. (Optional)
 	 * @param	integer	$page	Scan into the results by specifying a page number. Defaults to first page. (Optional)
 	 * @return	PaginatedResult	A PaginatedResult object.
+	 * @see		PaginatedResult
 	 *
 	 * @static
 	 * @access	public
@@ -390,7 +400,8 @@ class Artist extends Media {
 	/** Get an artist playlist for streaming. INOFFICIAL.
 	 *
 	 * @param	string	$artist	Artist name.
-	 * @return	mixed			A Playlist object on success or false on failure.
+	 * @return	Playlist		A Playlist object.
+	 * @see		Playlist
 	 *
 	 * @static
 	 * @access	public

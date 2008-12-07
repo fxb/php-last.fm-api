@@ -21,6 +21,20 @@ class Caller {
 	 */
 	private $curl;
 
+	/** A Cache instance
+	 *
+	 * @var Cache
+	 * @access	private
+	 */
+	private $cache;
+
+	/** An array of response headers.
+	 *
+	 * @var array
+	 * @access	private
+	 */
+	private $headers;
+
 	/** Last.fm API key
 	 *
 	 * @var string
@@ -47,18 +61,20 @@ class Caller {
 	 * @access	private
 	 */
 	private function __construct(){
-		$this->curl = curl_init();
+		$this->curl  = curl_init();
+		$this->cache = new DiskCache();
 
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($this->curl, CURLOPT_USERAGENT, phpversion());
+		curl_setopt($this->curl, CURLOPT_HEADERFUNCTION, array(&$this, 'header'));
 	}
 
 	/** Destructor that deinitializes cURL.
 	 *
-	 * @access	private
+	 * @access	public
 	 * @internal
 	 */
-	private function __destruct(){
+	public function __destruct(){
 		curl_close($this->curl);
 	}
 
@@ -96,11 +112,8 @@ class Caller {
 		$params = array_merge($callParams, $params);
 		$params = Util::toUTF8($params);
 
-		/* Build request query */
-		$query = http_build_query($params, '', '&');
-
 		/* Call API */
-		return $this->internalCall($query, $requestMethod);
+		return $this->internalCall($params, $requestMethod);
 	}
 
 	/** Call an API method which needs to be signed.
@@ -133,11 +146,8 @@ class Caller {
 		/* Add API signature */
 		$params['api_sig'] = Auth::getApiSignature($params, $this->apiSecret);
 
-		/* Build request query */
-		$query = http_build_query($params, '', '&');
-
 		/* Call API */
-		return $this->internalCall($query, $requestMethod);
+		return $this->internalCall($params, $requestMethod);
 	}
 
 	/** Send a query using a specified request-method.
@@ -149,20 +159,55 @@ class Caller {
 	 * @access	private
 	 * @internal
 	 */
-	private function internalCall($query, $requestMethod = 'GET'){
-		/* Set request options. */
-		if($requestMethod === 'POST'){
-			curl_setopt($this->curl, CURLOPT_URL, self::API_URL);
-			curl_setopt($this->curl, CURLOPT_POST, 1);
-			curl_setopt($this->curl, CURLOPT_POSTFIELDS, $query);
+	private function internalCall($params, $requestMethod = 'GET'){
+		/* Create caching hash. */
+		$hash = Cache::createHash($params);
+
+		/* Check if response is cached. */
+		if($this->cache != null &&
+			$this->cache->contains($hash) &&
+			!$this->cache->isExpired($hash)){
+			/* Get cached response. */
+			$response = $this->cache->load($hash);
 		}
 		else{
-			curl_setopt($this->curl, CURLOPT_URL, self::API_URL . '?' . $query);
-			curl_setopt($this->curl, CURLOPT_POST, 0);
+			/* Build request query */
+			$query = http_build_query($params, '', '&');
+
+			/* Set request options. */
+			if($requestMethod === 'POST'){
+				curl_setopt($this->curl, CURLOPT_URL, self::API_URL);
+				curl_setopt($this->curl, CURLOPT_POST, 1);
+				curl_setopt($this->curl, CURLOPT_POSTFIELDS, $query);
+			}
+			else{
+				curl_setopt($this->curl, CURLOPT_URL, self::API_URL . '?' . $query);
+				curl_setopt($this->curl, CURLOPT_POST, 0);
+			}
+
+			/* Clear response headers. */
+			$this->headers = array();
+
+			/* Get response. */
+			$response = curl_exec($this->curl);
+
+			/* Cache it. */
+			if($this->cache != null){
+				if(array_key_exists('Expires', $this->headers)){
+					$expiration = strtotime($this->headers['Expires']);
+				}
+				else{
+					$expiration = $this->cache->getPolicy()->getExpirationTime($params);
+				}
+
+				if($expiration > 0){
+					$this->cache->store($hash, $response, time() + $expiration);
+				}
+			}
 		}
 
-		/* Get response. */
-		$response = new SimpleXMLElement(curl_exec($this->curl));
+		/* Create SimpleXMLElement from response. */
+		$response = new SimpleXMLElement($response);
 
 		/* Return response or throw an error. */
 		if(Util::toString($response['status']) === 'ok'){
@@ -176,6 +221,26 @@ class Caller {
 				Util::toInteger($response->error['code'])
 			);
 		}
+	}
+
+	/** Header callback for cURL.
+	 *
+	 * @param	resource	$cURL	A cURL handle.
+	 * @param	string		$header	A HTTP response header.
+	 *
+	 * @access	private
+	 * @internal
+	 */
+	private function header($cURL, $header){
+		$parts = explode(': ', $header, 2);
+
+		if(count($parts) == 2){
+			list($key, $value) = $parts;
+
+			$this->headers[$key] = trim($value);
+		}
+
+		return strlen($header);
 	}
 
 	/** Set the last.fm API key to be used.
@@ -212,6 +277,24 @@ class Caller {
 	 */
 	public function getApiSecret(){
 		return $this->apiSecret;
+	}
+
+	/** Sets the active {@link Cache} (null to disable caching).
+	 *
+	 * @param	Cache	$cache	A Cache object. (Required)
+	 * @access	public
+	 */
+	public function setCache($cache){
+		$this->cache = $cache;
+	}
+
+	/** Get the current {@link Cache}.
+	 *
+	 * @return	Cache	A Cache object.
+	 * @access	public
+	 */
+	public function getCache(){
+		return $this->cache;
 	}
 }
 
