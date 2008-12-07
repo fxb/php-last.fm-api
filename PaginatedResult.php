@@ -2,7 +2,7 @@
 
 /** Stores information of a result that spans across multiple pages.
  *
- * @package	de.felixbruns.lastfm.api
+ * @package	php-lastfm-api
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */

@@ -2,7 +2,7 @@
 
 /** Represents a track and provides different methods to query track information.
  *
- * @package	de.felixbruns.lastfm.api
+ * @package	php-lastfm-api
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */

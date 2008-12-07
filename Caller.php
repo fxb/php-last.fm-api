@@ -2,7 +2,7 @@
 
 /** Calls API methods using REST requests.
  *
- * @package	de.felixbruns.lastfm.api
+ * @package	php-lastfm-api
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */

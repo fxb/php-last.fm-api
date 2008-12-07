@@ -2,7 +2,7 @@
 
 /** Provides utility methods to convert variables to a specified type.
  *
- * @package	de.felixbruns.lastfm.api
+ * @package	php-lastfm-api
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */
