@@ -394,23 +394,53 @@ class User extends Media {
 		return $tracks;
 	}
 
-	/** Get a paginated list of all events recommended to a user by last.fm, based on their listening profile.
+	/** Get Last.fm artist recommendations for a user.
 	 *
-	 * @param	string	$user	The username to fetch the events for. (Required)
 	 * @param	integer	$limit	The number of events to return per page. (Optional)
 	 * @param	integer	$page	The page number to scan to. (Optional)
-	 * @return	array			An array of Event objects.
+	 * @return	PaginatedResult	A PaginatedResult object.
 	 *
 	 * @static
 	 * @access	public
 	 * @throws	Error
 	 */
-	public static function getRecommendedEvents($user, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('user.getRecommendedEvents', array(
-			'user'  => $user,
+	public static function getRecommendedArtists($limit = null, $page = null, $session){
+		$xml = Caller::getInstance()->signedCall('user.getRecommendedArtists', array(
 			'limit' => $limit,
 			'page'  => $page
-		));
+		), $session);
+
+		$artists = array();
+
+		foreach($xml->children() as $artist){
+			$artists[] = Artist::fromSimpleXMLElement($artist);
+		}
+
+		$perPage = Util::toInteger($xml['perPage']);
+
+		return new PaginatedResult(
+			Util::toInteger($xml['total']),
+			(Util::toInteger($xml['page']) - 1) * $perPage,
+			$perPage,
+			$artists
+		);
+	}
+
+	/** Get a paginated list of all events recommended to a user by last.fm, based on their listening profile.
+	 *
+	 * @param	integer	$limit	The number of events to return per page. (Optional)
+	 * @param	integer	$page	The page number to scan to. (Optional)
+	 * @return	PaginatedResult	A PaginatedResult object.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
+	 */
+	public static function getRecommendedEvents($limit = null, $page = null, $session){
+		$xml = Caller::getInstance()->signedCall('user.getRecommendedEvents', array(
+			'limit' => $limit,
+			'page'  => $page
+		), $session);
 
 		$events = array();
 
