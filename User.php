@@ -336,11 +336,12 @@ class User extends Media {
 			$events[] = Event::fromSimpleXMLElement($event);
 		}
 
+		$perPage = Util::toInteger($xml['perPage']);
+
 		return new PaginatedResult(
 			Util::toInteger($xml['total']),
-			(Util::toInteger($xml['page']) - 1) *
-				Util::toInteger($xml['perPage']),
-			Util::toInteger($xml['perPage']),
+			(Util::toInteger($xml['page']) - 1) * $perPage,
+			$perPage,
 			$events
 		);
 	}
@@ -417,11 +418,12 @@ class User extends Media {
 			$events[] = Event::fromSimpleXMLElement($event);
 		}
 
+		$perPage = Util::toInteger($xml['perPage']);
+
 		return new PaginatedResult(
 			Util::toInteger($xml['total']),
-			(Util::toInteger($xml['page']) - 1) *
-				Util::toInteger($xml['perPage']),
-			Util::toInteger($xml['perPage']),
+			(Util::toInteger($xml['page']) - 1) * $perPage,
+			$perPage,
 			$events
 		);
 	}

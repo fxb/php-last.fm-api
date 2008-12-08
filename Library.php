@@ -80,12 +80,12 @@ class Library {
 			$albums[] = Album::fromSimpleXMLElement($album);
 		}
 
+		$perPage = Util::toInteger($xml['perPage']);
+
 		return new PaginatedResult(
-			Util::toInteger($xml['totalPages']) *
-				Util::toInteger($xml['perPage']),
-			(Util::toInteger($xml['page']) - 1) *
-				Util::toInteger($xml['perPage']),
-			Util::toInteger($xml['perPage']),
+			Util::toInteger($xml['totalPages']) * $perPage,
+			(Util::toInteger($xml['page']) - 1) * $perPage,
+			$perPage,
 			$albums
 		);
 	}
@@ -114,12 +114,12 @@ class Library {
 			$artists[] = Artist::fromSimpleXMLElement($artist);
 		}
 
+		$perPage = Util::toInteger($xml['perPage']);
+
 		return new PaginatedResult(
-			Util::toInteger($xml['totalPages']) *
-				Util::toInteger($xml['perPage']),
-			(Util::toInteger($xml['page']) - 1) *
-				Util::toInteger($xml['perPage']),
-			Util::toInteger($xml['perPage']),
+			Util::toInteger($xml['totalPages']) * $perPage,
+			(Util::toInteger($xml['page']) - 1) * $perPage,
+			$perPage,
 			$artists
 		);
 	}
@@ -148,12 +148,12 @@ class Library {
 			$tracks[] = Track::fromSimpleXMLElement($track);
 		}
 
+		$perPage = Util::toInteger($xml['perPage']);
+
 		return new PaginatedResult(
-			Util::toInteger($xml['totalPages']) *
-				Util::toInteger($xml['perPage']),
-			(Util::toInteger($xml['page']) - 1) *
-				Util::toInteger($xml['perPage']),
-			Util::toInteger($xml['perPage']),
+			Util::toInteger($xml['totalPages']) * $perPage,
+			(Util::toInteger($xml['page']) - 1) * $perPage,
+			$perPage,
 			$tracks
 		);
 	}

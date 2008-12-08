@@ -7,6 +7,36 @@
  * @version	1.0
  */
 class Group {
+	/** Get a list of members for this group.
+	 *
+	 * @param	string	$group	The group name to fetch the members of. (Required)
+ 	 * @return	array			An array of User objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
+	 */
+	public static function getMembers($group){
+		$xml = Caller::getInstance()->call('group.getMembers', array(
+			'group' => $group
+		));
+
+		$users = array();
+
+		foreach($xml->children() as $user){
+			$users[] = User::fromSimpleXMLElement($user);
+		}
+
+		$perPage = Util::toInteger($xml['perPage']);
+
+		return new PaginatedResult(
+			Util::toInteger($xml['totalPages']) * $perPage,
+			Util::toInteger($xml['page']) * $perPage,
+			$perPage,
+			$users
+		);
+	}
+
 	/** Get an album chart for a group, for a given date range. If no date range is supplied, it will return the most recent album chart for this group.
 	 *
 	 * @param	string	$group	The last.fm group name to fetch the charts of. (Required)
