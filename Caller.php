@@ -194,14 +194,17 @@ class Caller {
 			/* Cache it. */
 			if($this->cache != null){
 				if(array_key_exists('Expires', $this->headers)){
-					$expiration = strtotime($this->headers['Expires']);
+					$this->cache->store(
+						$hash, $response,
+						strtotime($this->headers['Expires'])
+					);
 				}
 				else{
 					$expiration = $this->cache->getPolicy()->getExpirationTime($params);
-				}
-
-				if($expiration > 0){
-					$this->cache->store($hash, $response, time() + $expiration);
+					
+					if($expiration > 0){
+						$this->cache->store($hash, $response, time() + $expiration);
+					}
 				}
 			}
 		}
