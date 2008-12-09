@@ -79,7 +79,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function getSimilar($tag){
-		$xml = Caller::getInstance()->call('tag.getSimilar', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getSimilar', array(
 			'tag' => $tag
 		));
 
@@ -102,7 +102,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function getTopAlbums($tag){
-		$xml = Caller::getInstance()->call('tag.getTopAlbums', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getTopAlbums', array(
 			'tag' => $tag
 		));
 
@@ -125,7 +125,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function getTopArtists($tag){
-		$xml = Caller::getInstance()->call('tag.getTopArtists', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getTopArtists', array(
 			'tag' => $tag
 		));
 
@@ -147,7 +147,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function getTopTags(){
-		$xml = Caller::getInstance()->call('tag.getTopTags');
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getTopTags');
 
 		$tags = array();
 
@@ -168,7 +168,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function getTopTracks($tag){
-		$xml = Caller::getInstance()->call('tag.getTopTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getTopTracks', array(
 			'tag' => $tag
 		));
 
@@ -195,7 +195,7 @@ class Tag {
 	 */
 	public static function getWeeklyArtistChart($tag, $from = null, $to = null,
 												$limit = null){
-		$xml = Caller::getInstance()->call('tag.getWeeklyArtistChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getWeeklyArtistChart', array(
 			'tag'   => $tag,
 			'from'  => $from,
 			'to'    => $to,
@@ -221,7 +221,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function getWeeklyChartList($tag){
-		$xml = Caller::getInstance()->call('tag.getWeeklyChartList', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.getWeeklyChartList', array(
 			'tag' => $tag
 		));
 
@@ -249,7 +249,7 @@ class Tag {
 	 * @throws	Error
 	 */
 	public static function search($tag, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('tag.search', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tag.search', array(
 			'tag'   => $tag,
 			'limit' => $limit,
 			'page'  => $page

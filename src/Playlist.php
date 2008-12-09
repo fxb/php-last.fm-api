@@ -182,7 +182,7 @@ class Playlist {
 	 * @throws	Error
 	 */
 	public static function addTrack($id, $artist, $track, $session){
-		Caller::getInstance()->signedCall('playlist.addTrack', array(
+		CallerFactory::getDefaultCaller()->signedCall('playlist.addTrack', array(
 			'playlistID' => $id,
 			'artist'     => $artist,
 			'track'      => $track
@@ -201,7 +201,7 @@ class Playlist {
 	 * @throws	Error
 	 */
 	public static function create($title = null, $description = null, $session){
-		$xml = Caller::getInstance()->call('playlist.create', array(
+		$xml = CallerFactory::getDefaultCaller()->call('playlist.create', array(
 			'title'       => $title,
 			'description' => $description
 		), $session , 'POST');
@@ -223,14 +223,14 @@ class Playlist {
 	 */
 	public static function fetch($playlist, $streaming = null, $fod = null, $session = null){
 		if($session == null){
-			$xml = Caller::getInstance()->call('playlist.fetch', array(
+			$xml = CallerFactory::getDefaultCaller()->call('playlist.fetch', array(
 				'playlistURL' => $playlist,
 				'streaming'   => $streaming,
 				'fod'         => $fod
 			));
 		}
 		else{
-			$xml = Caller::getInstance()->call('playlist.fetch', array(
+			$xml = CallerFactory::getDefaultCaller()->call('playlist.fetch', array(
 				'playlistURL' => $playlist,
 				'streaming'   => $streaming,
 				'fod'         => $fod,

@@ -128,7 +128,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function addTags($artist, array $tags, Session $session){
-		Caller::getInstance()->signedCall('artist.addTags', array(
+		CallerFactory::getDefaultCaller()->signedCall('artist.addTags', array(
 			'artist' => $artist,
 			'tags'   => implode(',', $tags)
 		), $session, 'POST');
@@ -145,7 +145,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getEvents($artist){
-		$xml = Caller::getInstance()->call('artist.getEvents', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getEvents', array(
 			'artist' => $artist
 		));
 
@@ -170,7 +170,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getInfo($artist, $mbid = null, $lang = null){
-		$xml = Caller::getInstance()->call('artist.getInfo', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getInfo', array(
 			'artist' => $artist,
 			'mbid'   => $mbid,
 			'lang'   => $lang
@@ -191,7 +191,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getSimilar($artist, $limit = null){
-		$xml = Caller::getInstance()->call('artist.getSimilar', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getSimilar', array(
 			'artist' => $artist,
 			'limit'  => $limit
 		));
@@ -217,7 +217,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getTags($artist, Session $session){
-		$xml = Caller::getInstance()->signedCall('artist.getTags', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('artist.getTags', array(
 			'artist' => $artist
 		), $session);
 
@@ -241,7 +241,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopAlbums($artist){
-		$xml = Caller::getInstance()->call('artist.getTopAlbums', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getTopAlbums', array(
 			'artist' => $artist
 		));
 
@@ -265,7 +265,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopFans($artist){
-		$xml = Caller::getInstance()->call('artist.getTopFans', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getTopFans', array(
 			'artist' => $artist
 		));
 
@@ -289,7 +289,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopTags($artist){
-		$xml = Caller::getInstance()->call('artist.getTopTags', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getTopTags', array(
 			'artist' => $artist
 		));
 
@@ -313,7 +313,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopTracks($artist){
-		$xml = Caller::getInstance()->call('artist.getTopTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getTopTracks', array(
 			'artist' => $artist
 		));
 
@@ -337,7 +337,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function removeTag($artist, $tag, Session $session){
-		Caller::getInstance()->signedCall('artist.removeTag', array(
+		CallerFactory::getDefaultCaller()->signedCall('artist.removeTag', array(
 			'artist' => $artist,
 			'tag'    => $tag
 		), $session, 'POST');
@@ -356,7 +356,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function search($artist, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('artist.search', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.search', array(
 			'artist' => $artist,
 			'limit'  => $limit,
 			'page'   => $page
@@ -390,7 +390,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function share($artist, array $recipients, $message = null, Session $session){
-		Caller::getInstance()->signedCall('artist.share', array(
+		CallerFactory::getDefaultCaller()->signedCall('artist.share', array(
 			'artist'    => $artist,
 			'recipient' => implode(',', $recipients),
 			'message'   => $message
@@ -408,7 +408,7 @@ class Artist extends Media {
 	 * @throws	Error
 	 */
 	public static function getPlaylist($artist){
-		$xml = Caller::getInstance()->call('artist.getPlayerMenu', array(
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getPlayerMenu', array(
 			'artist' => $artist
 		));
 

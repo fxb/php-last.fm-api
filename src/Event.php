@@ -236,7 +236,7 @@ class Event {
 	 * @throws	Error
 	 */
 	public static function attend($event, $status, $session){
-		Caller::getInstance()->signedCall('event.attend', array(
+		CallerFactory::getDefaultCaller()->signedCall('event.attend', array(
 			'event'  => $event,
 			'status' => $status
 		), $session, 'POST');
@@ -252,7 +252,7 @@ class Event {
 	 * @throws	Error
 	 */
 	public static function getInfo($event){
-		$xml = Caller::getInstance()->call('event.getInfo', array(
+		$xml = CallerFactory::getDefaultCaller()->call('event.getInfo', array(
 			'event' => $event
 		));
 
@@ -271,7 +271,7 @@ class Event {
 	 * @throws	Error
 	 */
 	public static function share($event, array $recipients, $message = null, $session){
-		Caller::getInstance()->signedCall('event.share', array(
+		CallerFactory::getDefaultCaller()->signedCall('event.share', array(
 			'event'     => $event,
 			'recipient' => implode(',', $recipients),
 			'message'   => $message
@@ -288,7 +288,7 @@ class Event {
 	 * @throws	Error
 	 */
 	public static function getPlaylist($event){
-		$xml = Caller::getInstance()->call('event.getPlayerMenu', array(
+		$xml = CallerFactory::getDefaultCaller()->call('event.getPlayerMenu', array(
 			'event' => $event
 		));
 

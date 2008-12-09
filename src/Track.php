@@ -219,7 +219,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function addTags($artist, $track, array $tags, $session){
-		Caller::getInstance()->signedCall('track.addTags', array(
+		CallerFactory::getDefaultCaller()->signedCall('track.addTags', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'tags'   => implode(',', $tags)
@@ -237,7 +237,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function ban($artist, $track, $session){
-		Caller::getInstance()->signedCall('track.ban', array(
+		CallerFactory::getDefaultCaller()->signedCall('track.ban', array(
 			'artist' => $artist,
 			'track'  => $track
 		), $session, 'POST');
@@ -255,7 +255,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function getInfo($artist, $track, $mbid = null){
-		$xml = Caller::getInstance()->call('track.getInfo', array(
+		$xml = CallerFactory::getDefaultCaller()->call('track.getInfo', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'mbid'   => $mbid
@@ -276,7 +276,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function getSimilar($artist, $track, $mbid = null){
-		$xml = Caller::getInstance()->call('track.getSimilar', array(
+		$xml = CallerFactory::getDefaultCaller()->call('track.getSimilar', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'mbid'   => $mbid
@@ -303,7 +303,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function getTags($artist, $track, $session){
-		$xml = Caller::getInstance()->signedCall('track.getTags', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('track.getTags', array(
 			'artist'  => $artist,
 			'track'   => $track
 		), $session);
@@ -329,7 +329,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopFans($artist, $track, $mbid = null){
-		$xml = Caller::getInstance()->call('track.getTopFans', array(
+		$xml = CallerFactory::getDefaultCaller()->call('track.getTopFans', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'mbid'   => $mbid
@@ -356,7 +356,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopTags($artist, $track, $mbid = null){
-		$xml = Caller::getInstance()->call('track.getTopTags', array(
+		$xml = CallerFactory::getDefaultCaller()->call('track.getTopTags', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'mbid'   => $mbid
@@ -382,7 +382,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function love($artist, $track, $session){
-		$xml = Caller::getInstance()->signedCall('track.love', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('track.love', array(
 			'artist' => $artist,
 			'track'  => $track
 		), $session, 'POST');
@@ -402,7 +402,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function removeTag($artist, $track, $tag, $session){
-		Caller::getInstance()->signedCall('track.removeTag', array(
+		CallerFactory::getDefaultCaller()->signedCall('track.removeTag', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'tag'    => $tag
@@ -422,7 +422,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function search($track, $artist = null, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('track.search', array(
+		$xml = CallerFactory::getDefaultCaller()->call('track.search', array(
 			'artist' => $artist,
 			'track'  => $track,
 			'limit'  => $limit,
@@ -459,7 +459,7 @@ class Track extends Media {
 	 */
 	public static function share($artist, $track, array $recipients,
 								 $message = null, $session){
-		Caller::getInstance()->signedCall('track.share', array(
+		CallerFactory::getDefaultCaller()->signedCall('track.share', array(
 			'artist'    => $artist,
 			'track'     => $track,
 			'recipient' => implode(',', $recipients),
@@ -478,7 +478,7 @@ class Track extends Media {
 	 * @throws	Error
 	 */
 	public static function getPlaylist($artist, $track){
-		$xml = Caller::getInstance()->call('track.getPlayerMenu', array(
+		$xml = CallerFactory::getDefaultCaller()->call('track.getPlayerMenu', array(
 			'artist' => $artist,
 			'track'  => $track
 		));

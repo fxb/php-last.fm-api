@@ -17,7 +17,7 @@ class Group {
 	 * @throws	Error
 	 */
 	public static function getMembers($group){
-		$xml = Caller::getInstance()->call('group.getMembers', array(
+		$xml = CallerFactory::getDefaultCaller()->call('group.getMembers', array(
 			'group' => $group
 		));
 
@@ -49,7 +49,7 @@ class Group {
 	 * @throws	Error
 	 */
 	public static function getWeeklyAlbumChart($group, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('group.getWeeklyAlbumChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('group.getWeeklyAlbumChart', array(
 			'group' => $group,
 			'from'  => $from,
 			'to'    => $to
@@ -76,7 +76,7 @@ class Group {
 	 * @throws	Error
 	 */
 	public static function getWeeklyArtistChart($group, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('group.getWeeklyArtistChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('group.getWeeklyArtistChart', array(
 			'group' => $group,
 			'from'  => $from,
 			'to'    => $to
@@ -101,7 +101,7 @@ class Group {
 	 * @throws	Error
 	 */
 	public static function getWeeklyChartList($group){
-		$xml = Caller::getInstance()->call('group.getWeeklyChartList', array(
+		$xml = CallerFactory::getDefaultCaller()->call('group.getWeeklyChartList', array(
 			'group' => $group
 		));
 
@@ -129,7 +129,7 @@ class Group {
 	 * @throws	Error
 	 */
 	public static function getWeeklyTrackChart($group, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('group.getWeeklyTrackChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('group.getWeeklyTrackChart', array(
 			'group' => $group,
 			'from'  => $from,
 			'to'    => $to

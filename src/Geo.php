@@ -22,7 +22,7 @@ class Geo {
 	 */
 	public static function getEvents($location = null, $lat = null, $long = null,
 									 $distance = null, $page = null){
-		$xml = Caller::getInstance()->call('geo.getEvents', array(
+		$xml = CallerFactory::getDefaultCaller()->call('geo.getEvents', array(
 			'location' => $location,
 			'lat'      => $lat,
 			'long'     => $long,
@@ -58,7 +58,7 @@ class Geo {
 	 * @throws	Error
 	 */
 	public static function getTopArtists($country){
-		$xml = Caller::getInstance()->call('geo.getTopArtists', array(
+		$xml = CallerFactory::getDefaultCaller()->call('geo.getTopArtists', array(
 			'country' => $country
 		));
 
@@ -82,7 +82,7 @@ class Geo {
 	 * @throws	Error
 	 */
 	public static function getTopTracks($country, $location = null){
-		$xml = Caller::getInstance()->call('geo.getTopTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('geo.getTopTracks', array(
 			'country'  => $country,
 			'location' => $location
 		));

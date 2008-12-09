@@ -1,3 +1,11 @@
+2008-12-09	Felix Bruns <felixbruns@web.de>
+
+	* Fixed bug in SqliteCache
+	* Added CallerFactory
+	* Added CurlCaller, PeclCaller, SocketCaller
+	* Made Caller abstract
+
+
 2008-12-08	Felix Bruns <felixbruns@web.de>
 
 	* Fixed user.getRecommendedEvents

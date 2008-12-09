@@ -41,7 +41,7 @@ class Auth {
 	 * @throws	Error
 	 */
 	public static function getMobileSession($username, $password){
-		$xml = Caller::getInstance()->signedCall('auth.getMobileSession', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('auth.getMobileSession', array(
 			'username'  => $username,
 			'authToken' => md5($username . md5($password))
 		));
@@ -59,7 +59,7 @@ class Auth {
 	 * @throws	Error
 	 */
 	public static function getSession($token){
-		$xml = Caller::getInstance()->signedCall('auth.getSession', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('auth.getSession', array(
 			'token' => $token
 		));
 
@@ -75,7 +75,7 @@ class Auth {
 	 * @throws	Error
 	 */
 	public static function getToken(){
-		$xml = Caller::getInstance()->signedCall('auth.getToken');
+		$xml = CallerFactory::getDefaultCaller()->signedCall('auth.getToken');
 
 		return Util::toString($xml);
 	}
@@ -89,7 +89,7 @@ class Auth {
 	 * @throws	Error
 	 */
 	public static function getWebSession(){
-		$xml = Caller::getInstance()->signedCall('auth.getWebSession');
+		$xml = CallerFactory::getDefaultCaller()->signedCall('auth.getWebSession');
 
 		return Session::fromSimpleXMLElement($xml);
 	}

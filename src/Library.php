@@ -18,7 +18,7 @@ class Library {
 	 * @throws	Error
 	 */
 	public static function addAlbum($artist, $album, $session){
-		Caller::getInstance()->signedCall('library.addAlbum', array(
+		CallerFactory::getDefaultCaller()->signedCall('library.addAlbum', array(
 			'artist' => $artist,
 			'album'  => $album
 		), $session, 'POST');
@@ -34,7 +34,7 @@ class Library {
 	 * @throws	Error
 	 */
 	public static function addArtist($artist, $session){
-		Caller::getInstance()->signedCall('library.addArtist', array(
+		CallerFactory::getDefaultCaller()->signedCall('library.addArtist', array(
 			'artist' => $artist
 		), $session, 'POST');
 	}
@@ -50,7 +50,7 @@ class Library {
 	 * @throws	Error
 	 */
 	public static function addTrack($artist, $track, $session){
-		Caller::getInstance()->signedCall('library.addTrack', array(
+		CallerFactory::getDefaultCaller()->signedCall('library.addTrack', array(
 			'artist' => $artist,
 			'track'  => $track
 		), $session, 'POST');
@@ -68,7 +68,7 @@ class Library {
 	 * @throws	Error
 	 */
 	public static function getAlbums($user, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('library.getAlbums', array(
+		$xml = CallerFactory::getDefaultCaller()->call('library.getAlbums', array(
 			'user'  => $user,
 			'limit' => $limit,
 			'page'  => $page
@@ -102,7 +102,7 @@ class Library {
 	 * @throws	Error
 	 */
 	public static function getArtists($user, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('library.getArtists', array(
+		$xml = CallerFactory::getDefaultCaller()->call('library.getArtists', array(
 			'user'  => $user,
 			'limit' => $limit,
 			'page'  => $page
@@ -136,7 +136,7 @@ class Library {
 	 * @throws	Error
 	 */
 	public static function getTracks($user, $limit, $page){
-		$xml = Caller::getInstance()->call('library.getTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('library.getTracks', array(
 			'user'  => $user,
 			'limit' => $limit,
 			'page'  => $page

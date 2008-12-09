@@ -15,7 +15,7 @@ final class SqliteCache extends Cache {
 		$this->sqlite = sqlite_open($database);
 
 		@sqlite_query($this->sqlite,
-			"CREATE TABLE cache (hash VARCAHR(40), xml TEXT, expiration INTEGER);"
+			"CREATE TABLE cache (hash VARCAHR(40) PRIMARY KEY, xml TEXT, expiration INTEGER);"
 		);
 	}
 

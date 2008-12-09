@@ -205,7 +205,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getEvents($user){
-		$xml = Caller::getInstance()->call('user.getEvents', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getEvents', array(
 			'user' => $user
 		));
 
@@ -230,7 +230,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getFriends($user, $recentTracks = null, $limit = null){
-		$xml = Caller::getInstance()->call('user.getFriends', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getFriends', array(
 			'user'         => $user,
 			'recenttracks' => $recenttracks,
 			'limit'        => $limit
@@ -255,7 +255,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getInfo($session){
-		$xml = Caller::getInstance()->signedCall('user.getInfo', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('user.getInfo', array(
 			'user'         => $user,
 			'recenttracks' => $recenttracks,
 			'limit'        => $limit
@@ -274,7 +274,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getLovedTracks($user){
-		$xml = Caller::getInstance()->call('user.getLovedTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getLovedTracks', array(
 			'user' => $user
 		));
 
@@ -298,7 +298,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getNeighbours($user, $limit = null){
-		$xml = Caller::getInstance()->call('user.getNeighbours', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getNeighbours', array(
 			'user'  => $user,
 			'limit' => $limit
 		));
@@ -324,7 +324,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getPastEvents($user, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('user.getPastEvents', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getPastEvents', array(
 			'user'  => $user,
 			'limit' => $limit,
 			'page'  => $page
@@ -356,7 +356,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getPlaylists($user){
-		$xml = Caller::getInstance()->call('user.getPlaylists', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getPlaylists', array(
 			'user' => $user
 		));
 
@@ -380,7 +380,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getRecentTracks($user, $limit = null){
-		$xml = Caller::getInstance()->call('user.getRecentTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getRecentTracks', array(
 			'user'  => $user,
 			'limit' => $limit
 		));
@@ -405,7 +405,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getRecommendedArtists($limit = null, $page = null, $session){
-		$xml = Caller::getInstance()->signedCall('user.getRecommendedArtists', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('user.getRecommendedArtists', array(
 			'limit' => $limit,
 			'page'  => $page
 		), $session);
@@ -437,7 +437,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getRecommendedEvents($limit = null, $page = null, $session){
-		$xml = Caller::getInstance()->signedCall('user.getRecommendedEvents', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('user.getRecommendedEvents', array(
 			'limit' => $limit,
 			'page'  => $page
 		), $session);
@@ -469,7 +469,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopAlbums($user, $period = null){
-		$xml = Caller::getInstance()->call('user.getTopAlbums', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getTopAlbums', array(
 			'user'   => $user,
 			'period' => $period
 		));
@@ -494,7 +494,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopArtists($user, $period = null){
-		$xml = Caller::getInstance()->call('user.getTopArtists', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getTopArtists', array(
 			'user'   => $user,
 			'period' => $period
 		));
@@ -519,7 +519,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopTags($user, $limit = null){
-		$xml = Caller::getInstance()->call('user.getTopTags', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getTopTags', array(
 			'user'  => $user,
 			'limit' => $limit
 		));
@@ -544,7 +544,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getTopTracks($user, $period = null){
-		$xml = Caller::getInstance()->call('user.getTopTracks', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getTopTracks', array(
 			'user'   => $user,
 			'period' => $period
 		));
@@ -570,7 +570,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getWeeklyAlbumChart($user, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('user.getWeeklyAlbumChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getWeeklyAlbumChart', array(
 			'user' => $user,
 			'from' => $from,
 			'to'   => $to
@@ -597,7 +597,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getWeeklyArtistChart($user, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('user.getWeeklyArtistChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getWeeklyArtistChart', array(
 			'user' => $user,
 			'from' => $from,
 			'to'   => $to
@@ -622,7 +622,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getWeeklyChartList($user, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('user.getWeeklyChartList', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getWeeklyChartList', array(
 			'user' => $user
 		));
 
@@ -650,7 +650,7 @@ class User extends Media {
 	 * @throws	Error
 	 */
 	public static function getWeeklyTrackChart($user, $from = null, $to = null){
-		$xml = Caller::getInstance()->call('user.getWeeklyTrackChart', array(
+		$xml = CallerFactory::getDefaultCaller()->call('user.getWeeklyTrackChart', array(
 			'user' => $user,
 			'from' => $from,
 			'to'   => $to

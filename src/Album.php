@@ -112,7 +112,7 @@ class Album extends Media {
 	 */
 	public static function addTags($artist, $album, array $tags,
 								   Session $session){
-		Caller::getInstance()->signedCall('album.addTags', array(
+		CallerFactory::getDefaultCaller()->signedCall('album.addTags', array(
 			'artist' => $artist,
 			'album'  => $album,
 			'tags'   => implode(',', $tags)
@@ -132,7 +132,7 @@ class Album extends Media {
 	 * @throws	Error
 	 */
 	public static function getInfo($artist, $album, $mbid = null, $lang = null){
-		$xml = Caller::getInstance()->call('album.getInfo', array(
+		$xml = CallerFactory::getDefaultCaller()->call('album.getInfo', array(
 			'artist' => $artist,
 			'album'  => $album,
 			'mbid'   => $mbid,
@@ -155,7 +155,7 @@ class Album extends Media {
 	 * @throws	Error
 	 */
 	public static function getTags($artist, $album, Session $session){
-		$xml = Caller::getInstance()->signedCall('album.getTags', array(
+		$xml = CallerFactory::getDefaultCaller()->signedCall('album.getTags', array(
 			'artist' => $artist,
 			'album'  => $album
 		), $session);
@@ -181,7 +181,7 @@ class Album extends Media {
 	 * @throws	Error
 	 */
 	public static function removeTag($artist, $album, $tag, Session $session){
-		Caller::getInstance()->signedCall('album.removeTag', array(
+		CallerFactory::getDefaultCaller()->signedCall('album.removeTag', array(
 			'artist' => $artist,
 			'album'  => $album,
 			'tag'    => $tag
@@ -201,7 +201,7 @@ class Album extends Media {
 	 * @throws	Error
 	 */
 	public static function search($album, $limit = null, $page = null){
-		$xml = Caller::getInstance()->call('album.search', array(
+		$xml = CallerFactory::getDefaultCaller()->call('album.search', array(
 			'album' => $album,
 			'limit' => $limit,
 			'page'  => $page
@@ -235,7 +235,7 @@ class Album extends Media {
 	 * @throws	Error
 	 */
 	public static function getPlaylist($artist, $album){
-		$xml = Caller::getInstance()->call('album.getPlayerMenu', array(
+		$xml = CallerFactory::getDefaultCaller()->call('album.getPlayerMenu', array(
 			'artist' => $artist,
 			'album'  => $album
 		));

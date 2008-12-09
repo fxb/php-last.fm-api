@@ -40,7 +40,7 @@ class Tasteometer {
 		}
 
 		/* API call. */
-		$xml = Caller::getInstance()->call('tasteometer.compare', array(
+		$xml = CallerFactory::getDefaultCaller()->call('tasteometer.compare', array(
 			'type1'  => $type1,
 			'type2'  => $type2,
 			'value1' => $value1,
