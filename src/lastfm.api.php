@@ -1,6 +1,11 @@
 <?
 
-/* Autoload classes */
+/** Autoloads PHP last.fm API classes
+ *
+ * @package	php-lastfm-api
+ * @author  Felix Bruns <felixbruns@web.de>
+ * @version	1.0
+ */
 function __autoload($name){
 	if(stripos($name, 'Cache') !== false){
 		$filename = realpath(sprintf("%s/cache/%s.php", dirname(__FILE__), $name));
