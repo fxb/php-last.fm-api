@@ -14,10 +14,24 @@ final class DefaultCachePolicy implements CachePolicy {
 	private static $MONTH;
 	private static $YEAR;
 
+	/** last.fm API methods to be cached for a week.
+	 *
+	 * @var		array
+	 * @access	private
+	 */
 	private $weeklyMethods;
 
+	/** The expiration time of weekly charts (defaults to a week).
+	 *
+	 * @var		integer
+	 * @access	private
+	 */
 	private $weeklyChartsExpiration;
 
+	/** Creates a DaultCachePolicy.
+	 *
+	 * @access	public
+	 */
 	public function __construct(){
 		$this->MINUTE  =                 60;
 		$this->HOUR    = $this->MINUTE * 60;
@@ -47,6 +61,13 @@ final class DefaultCachePolicy implements CachePolicy {
 		$this->weeklyChartsExpiration = $this->WEEK;
 	}
 
+	/** Returns the expiration time by interpreting last.fm API request parameters.
+	 *
+	 * @param	array	$params	An associative array of last.fm API request parameters.
+	 * @return	integer			Expiration time in seconds.
+	 *
+	 * @access	public
+	 */
 	public function getExpirationTime($params){
 		$method = $params['method'];
 
@@ -62,10 +83,21 @@ final class DefaultCachePolicy implements CachePolicy {
 		return in_array($method, $this->weeklyMethods) ? $this->WEEK : -1;
 	}
 
+	/** Returns the expiration time of weekly charts.
+	 *
+	 * @return	integer	The expiration time in seconds.
+	 *
+	 * @access	public
+	 */
 	public function getWeeklyChartsExpiration(){
 		return $this->weeklyChartsExpiration;
 	}
 
+	/** Sets the expiration time of weekly charts.
+	 *
+	 * @param	integer	$expiration	Expiration time in seconds.
+	 * @access	public
+	 */
 	public function setWeeklyChartsExpiration($expiration){
 		$this->weeklyChartsExpiration = $expiration;
 	}

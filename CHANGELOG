@@ -1,3 +1,9 @@
+2008-12-17	Felix Bruns <felixbruns@web.de>
+
+	* Added more documentation comments
+	* Added MemoryCache class
+
+
 2008-12-09	Felix Bruns <felixbruns@web.de>
 
 	* Fixed bug in SqliteCache

@@ -1,40 +1,27 @@
 <?
 
-/** A SQLite database cache.
+/** A memory cache.
  *
  * @package	php-lastfm-api
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */
-final class SqliteCache extends Cache {
-	/** The SQLite database handle.
+final class MemoryCache extends Cache {
+	/** The array where the cache data is stored.
 	 *
-	 * @var		string
+	 * @var		array
 	 * @access	private
 	 */
-	private $sqlite;
+	private $cache;
 
-	/** Constructor that sets up the SqliteCache.
+	/** Constructor that sets up the MemoryCache.
 	 *
-	 * @param	string	$database	The database file to use.
 	 * @access	public
 	 */
-	public function __construct($database){
+	public function __construct(){
 		parent::__construct();
 
-		$this->sqlite = sqlite_open($database);
-
-		@sqlite_query($this->sqlite,
-			"CREATE TABLE cache (hash VARCAHR(40) PRIMARY KEY, xml TEXT, expiration INTEGER);"
-		);
-	}
-
-	/** Destructor that closes the SQLite database.
-	 *
-	 * @access	public
-	 */
-	public function __destruct(){
-		sqlite_close($this->sqlite);
+		$this->cache = array();
 	}
 
 	/** Checks if data associated with a hash exists in the cache.
@@ -44,11 +31,7 @@ final class SqliteCache extends Cache {
 	 * @access	public
 	 */
 	public function contains($hash){
-		$result = sqlite_query($this->sqlite,
-			"SELECT 1 FROM cache WHERE hash = '".sqlite_escape_string($hash)."'"
-		);
-
-		return sqlite_num_rows($result) > 0;
+		return array_key_exists($hash, $this->cache);
 	}
 
 	/** Loads data from the cache.
@@ -58,11 +41,7 @@ final class SqliteCache extends Cache {
 	 * @access	public
 	 */
 	public function load($hash){
-		$result = sqlite_query($this->sqlite,
-			"SELECT xml FROM cache WHERE hash = '".sqlite_escape_string($hash)."'"
-		);
-
-		return sqlite_fetch_string($result);
+		return $this->cache[$hash]['data'];
 	}
 
 	/** Removes data from the cache.
@@ -71,9 +50,7 @@ final class SqliteCache extends Cache {
 	 * @access	public
 	 */
 	public function remove($hash){
-		sqlite_exec($this->sqlite,
-			"DELETE FROM cache WHERE hash = '".sqlite_escape_string($hash)."'"
-		);
+		unset($this->cache[$hash]);
 	}
 
 	/** Stores data in the cache.
@@ -84,12 +61,9 @@ final class SqliteCache extends Cache {
 	 * @access	public
 	 */
 	public function store($hash, $data, $expiration){
-		sqlite_exec($this->sqlite,
-			"INSERT OR REPLACE INTO cache VALUES(
-			'".sqlite_escape_string($hash)."',
-			'".sqlite_escape_string($data)."',
-			'".intval($expiration)."'
-			)"
+		$this->cache[$hash] = array(
+			'data'       => $data,
+			'expiration' => $expiration
 		);
 	}
 
@@ -98,7 +72,7 @@ final class SqliteCache extends Cache {
 	 * @access	public
 	 */
 	public function clear(){
-		sqlite_exec($this->sqlite, "DELETE FROM cache");
+		$this->cache = array();
 	}
 
 	/** Checks if data associated with a hash is expired.
@@ -108,11 +82,7 @@ final class SqliteCache extends Cache {
 	 * @access	public
 	 */
 	public function isExpired($hash){
-		$result = sqlite_query($this->sqlite,
-			"SELECT expiration FROM cache WHERE hash = '".sqlite_escape_string($hash)."'"
-		);
-
-		$expiration = sqlite_fetch_string($result);
+		$expiration = $this->cache[$hash]['expiration'];
 
 		return (time() > intval($expiration));
 	}
