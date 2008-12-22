@@ -179,6 +179,29 @@ class Artist extends Media {
 		return Artist::fromSimpleXMLElement($xml);
 	}
 
+	/** Get shouts for this artist.
+	 *
+	 * @param	string	$artist	The artist name in question. (Required)
+	 * @return	array			An array of Shout objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
+	 */
+	public static function getShouts($artist){
+		$xml = CallerFactory::getDefaultCaller()->call('artist.getShouts', array(
+			'artist' => $artist
+		));
+
+		$shouts = array();
+
+		foreach($xml->children() as $shout){
+			$shouts[] = Shout::fromSimpleXMLElement($shout);
+		}
+
+		return $shouts;
+	}
+
 	/** Get all the artists similar to this artist.
 	 *
 	 * @param	string	$artist	The artist name in question. (Required)

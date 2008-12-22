@@ -259,6 +259,29 @@ class Event {
 		return Event::fromSimpleXMLElement($xml);
 	}
 
+	/** Get shouts for this event.
+	 *
+	 * @param	integer	$event	The numeric last.fm event id (Required)
+	 * @return	array			An array of Shout objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
+	 */
+	public static function getShouts($event){
+		$xml = CallerFactory::getDefaultCaller()->call('event.getShouts', array(
+			'event' => $event
+		));
+
+		$shouts = array();
+
+		foreach($xml->children() as $shout){
+			$shouts[] = Shout::fromSimpleXMLElement($shout);
+		}
+
+		return $shouts;
+	}
+
 	/** Share an event with one or more last.fm users or other friends.
 	 *
 	 * @param	integer	$event		An event ID. (Required)

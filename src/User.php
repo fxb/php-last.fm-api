@@ -317,7 +317,8 @@ class User extends Media {
 	 * @param	string	$user	The username to fetch the events for. (Required)
 	 * @param	integer	$limit	The number of events to return per page. (Optional)
 	 * @param	integer	$page	The page number to scan to. (Optional)
-	 * @return	array			An array of Event objects.
+	 * @return	PaginatedResult	A PaginatedResult object.
+	 * @see		PaginatedResult
 	 *
 	 * @static
 	 * @access	public
@@ -456,6 +457,29 @@ class User extends Media {
 			$perPage,
 			$events
 		);
+	}
+
+	/** Get shouts for this user.
+	 *
+	 * @param	string	$user	The username to fetch shouts for. (Required)
+	 * @return	array			An array of Shout objects.
+	 *
+	 * @static
+	 * @access	public
+	 * @throws	Error
+	 */
+	public static function getShouts($user){
+		$xml = CallerFactory::getDefaultCaller()->call('user.getShouts', array(
+			'user' => $user
+		));
+
+		$shouts = array();
+
+		foreach($xml->children() as $shout){
+			$shouts[] = Shout::fromSimpleXMLElement($shout);
+		}
+
+		return $shouts;
 	}
 
 	/** Get the top albums listened to by a user. You can stipulate a time period. Sends the overall chart by default.

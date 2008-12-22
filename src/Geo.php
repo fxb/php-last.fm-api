@@ -14,7 +14,7 @@ class Geo {
 	 * @param	float	$long		Specifies a longitude value to retrieve events for (service returns nearby events by default). (Optional)
 	 * @param	integer	$distance	Find events within a specified distance. (Optional)
 	 * @param	integer	$page		Display more results by pagination. (Optional)
-	 * @return	array				An array of Artist objects.
+	 * @return	PaginatedResult		A PaginatedResult object.
 	 *
 	 * @static
 	 * @access	public

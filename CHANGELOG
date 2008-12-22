@@ -1,3 +1,14 @@
+2008-12-22	Felix Bruns <felixbruns@web.de>
+
+	* Added Shout class
+	* Added artist.getShouts
+	* Added event.getShouts
+	* Added user.getShouts
+	* Added venue.getEvents
+	* Added venue.getPastEvents
+	* Added venue.search
+
+
 2008-12-17	Felix Bruns <felixbruns@web.de>
 
 	* Added more documentation comments
