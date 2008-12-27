@@ -1,3 +1,9 @@
+2008-12-27	Felix Bruns <felixbruns@web.de>
+
+	* PaginatedResult implements Iterator
+	* $size parameter of Media::getImage is now optional
+
+
 2008-12-22	Felix Bruns <felixbruns@web.de>
 
 	* Added Shout class

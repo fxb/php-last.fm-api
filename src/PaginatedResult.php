@@ -6,7 +6,7 @@
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */
-class PaginatedResult {
+class PaginatedResult implements Iterator {
 	/** The number of total results.
 	 *
 	 * @var integer
@@ -102,7 +102,29 @@ class PaginatedResult {
 	 * @access	public
 	 */
 	public function getResults(){
+		$this->rewind();
+
 		return $this->results;
+	}
+
+	public function rewind(){
+		reset($this->results);
+	}
+
+	public function current(){
+		return current($this->results);
+	}
+
+	public function key(){
+		return key($this->results);
+	}
+
+	public function next(){
+		return next($this->results);
+	}
+
+	public function valid(){
+		return ($this->current() !== false);
 	}
 }
 

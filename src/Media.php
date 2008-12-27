@@ -112,12 +112,22 @@ class Media {
 
 	/** Returns an image URL of the specified size of this medium.
 	 *
-	 * @param	integer	$size	Image size constant.
+	 * @param	integer	$size	Image size constant. (Optional)
 	 * @return	string			An image URL.
 	 * @access	public
 	 */
-	public function getImage($size){
-		return $this->images[$size];
+	public function getImage($size = null){
+		if($size != null){
+			return $this->images[$size];
+		}
+
+		for($size = Media::IMAGE_ORIGINAL; $size > Media::IMAGE_UNKNOWN; $size--){
+			if(array_key_exists($size, $this->images)){
+				return $this->images[$size];
+			}
+		}
+
+		return null;
 	}
 
 	/** Returns the number of listeners of this medium.

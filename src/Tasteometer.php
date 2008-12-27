@@ -13,7 +13,7 @@ class Tasteometer {
 	 * @access	public
 	 */
 	const COMPARE_USER    = 'user';
-	const COMPARE_ARTIST  = 'artists';
+	const COMPARE_ARTISTS = 'artists';
 	const COMPARE_MYSPACE = 'myspace';
 
 	/** Get a Tasteometer score from two inputs, along with a list of shared artists. If the input is a User or a Myspace URL, some additional information is returned.

@@ -286,7 +286,7 @@ class Album extends Media {
 				array(), 0, 0, 0, array(), array(), '', 0.0
 			);
 		}
-		if($xml->artist && $xml->artist['mbid']){
+		else if($xml->artist && $xml->artist['mbid']){
 			$artist = new Artist(
 				Util::toString($xml->artist),
 				Util::toString($xml->artist['mbid']),
