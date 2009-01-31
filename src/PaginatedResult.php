@@ -6,7 +6,7 @@
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */
-class PaginatedResult implements Iterator {
+class PaginatedResult implements Iterator, Countable {
 	/** The number of total results.
 	 *
 	 * @var integer
@@ -125,6 +125,10 @@ class PaginatedResult implements Iterator {
 
 	public function valid(){
 		return ($this->current() !== false);
+	}
+
+	public function count(){
+		return count($this->results);
 	}
 }
 

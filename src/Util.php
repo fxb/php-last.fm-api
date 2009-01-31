@@ -90,7 +90,7 @@ class Util {
 					return Media::IMAGE_MEDIUM;
 			case 'large':
 					return Media::IMAGE_LARGE;
-			case 'hude':
+			case 'huge':
 					return Media::IMAGE_HUGE;
 			case 'extralarge':
 					return Media::IMAGE_EXTRALARGE;

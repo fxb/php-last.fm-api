@@ -1,3 +1,9 @@
+2009-01-31	Felix Bruns <felixbruns@web.de>
+
+	* PaginatedResult implements Countable
+	* Fixed typo in Util class
+
+
 2008-12-27	Felix Bruns <felixbruns@web.de>
 
 	* PaginatedResult implements Iterator
