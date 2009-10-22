@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Caller factory.
  *
@@ -74,4 +74,4 @@ class CallerFactory {
 	}
 }
 
-?>
+

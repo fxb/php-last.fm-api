@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a tag and provides different methods to query tag information.
  *
@@ -282,4 +282,4 @@ class Tag {
 	}
 }
 
-?>
+

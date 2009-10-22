@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a track and provides different methods to query track information.
  *
@@ -567,4 +567,4 @@ class Track extends Media {
 	}
 }
 
-?>
+

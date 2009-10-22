@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Provides different methods to query user music library information.
  *
@@ -159,4 +159,4 @@ class Library {
 	}
 }
 
-?>
+

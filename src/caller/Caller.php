@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Calls API methods using REST requests.
  *
@@ -41,7 +41,7 @@ abstract class Caller {
 	 * @static
 	 * @access	public
 	 */
-	public abstract static function getInstance();
+	public static function getInstance();
 
 	/** Call an API method.
 	 *
@@ -167,4 +167,4 @@ abstract class Caller {
 	}
 }
 
-?>
+

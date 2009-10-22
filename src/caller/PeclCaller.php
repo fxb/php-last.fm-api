@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Calls API methods using REST requests using PECL HTTP.
  *
@@ -127,4 +127,4 @@ final class PeclCaller extends Caller {
 	}
 }
 
-?>
+

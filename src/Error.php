@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** An error exception.
  *
@@ -8,4 +8,4 @@
  */
 class Error extends Exception { }
 
-?>
+

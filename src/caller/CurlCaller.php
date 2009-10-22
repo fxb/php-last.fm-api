@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Calls API methods using REST requests using cURL.
  *
@@ -161,4 +161,4 @@ final class CurlCaller extends Caller {
 	}
 }
 
-?>
+

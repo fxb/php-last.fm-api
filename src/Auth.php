@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Authentication methods.
  *
@@ -95,4 +95,4 @@ class Auth {
 	}
 }
 
-?>
+

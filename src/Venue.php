@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a venue.
  *
@@ -182,4 +182,4 @@ class Venue {
 	}
 }
 
-?>
+

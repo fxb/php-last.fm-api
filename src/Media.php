@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents some kind of media and provides common information.
  *
@@ -149,4 +149,4 @@ class Media {
 	}
 }
 
-?>
+

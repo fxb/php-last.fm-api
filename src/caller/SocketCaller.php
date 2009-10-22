@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Calls API methods using REST requests using PHP sockets.
  *
@@ -166,4 +166,4 @@ final class SocketCaller extends Caller {
 	}
 }
 
-?>
+

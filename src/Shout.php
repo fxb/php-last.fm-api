@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a shout.
  *
@@ -87,4 +87,4 @@ class Shout {
 	}
 }
 
-?>
+

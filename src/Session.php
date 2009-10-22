@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Stores information of a last.fm session.
  *
@@ -87,4 +87,4 @@ class Session {
 	}
 }
 
-?>
+

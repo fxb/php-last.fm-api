@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** A cache.
  *
@@ -109,4 +109,4 @@ abstract class Cache {
 	}
 }
 
-?>
+

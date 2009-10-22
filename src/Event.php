@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents an event and provides different methods to query event information.
  *
@@ -362,4 +362,4 @@ class Event {
 	}
 }
 
-?>
+

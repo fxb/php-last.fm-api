@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Provides a method for comparing music tastes.
  *
@@ -70,4 +70,4 @@ class Tasteometer {
 	}
 }
 
-?>
+

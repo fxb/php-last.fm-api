@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Provides different methods to query group information.
  *
@@ -145,4 +145,4 @@ class Group {
 	}
 }
 
-?>
+

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** A disk cache.
  *
@@ -102,4 +102,4 @@ final class DiskCache extends Cache {
 	}
 }
 
-?>
+

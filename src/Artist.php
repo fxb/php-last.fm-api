@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents an artist and provides different methods to query artist information.
  *
@@ -497,4 +497,4 @@ class Artist extends Media {
 	}
 }
 
-?>
+

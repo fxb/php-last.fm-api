@@ -1,3 +1,11 @@
+2009-10-31  Maksim Kotlyar <mkotlar@ukr.net>
+  * replace <? with <?php
+  * remove ?>
+  * Warning: Playlist::fromSimpleXMLElement() [playlist.fromsimplexmlelement]: Node no longer exists
+  * Rename var $userlist to $userlists on User::getPlaylists() line 371.
+  * PHP 5.3 Strict standards: Static function Caller::getInstance() should not be abstract
+  * PHP 5.3 Strict standards: Accessing static property DefaultCachePolicy::$MINUTE as non static
+
 2009-01-31	Felix Bruns <felixbruns@web.de>
 
 	* PaginatedResult implements Countable

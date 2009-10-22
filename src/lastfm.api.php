@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Autoloads PHP last.fm API classes
  *
@@ -29,4 +29,4 @@ function __autoload($name){
 	}
 }
 
-?>
+

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a geographical location (address, coordinate, timezone).
  *
@@ -150,4 +150,4 @@ class Location {
 	}
 }
 
-?>
+

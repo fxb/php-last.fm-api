@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** A SQLite database cache.
  *
@@ -118,4 +118,4 @@ final class SqliteCache extends Cache {
 	}
 }
 
-?>
+

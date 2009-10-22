@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Stores information of a result that spans across multiple pages.
  *
@@ -132,4 +132,4 @@ class PaginatedResult implements Iterator, Countable {
 	}
 }
 
-?>
+

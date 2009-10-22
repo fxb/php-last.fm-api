@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents an album and provides different methods to query album information.
  *
@@ -312,4 +312,4 @@ class Album extends Media {
 	}
 }
 
-?>
+

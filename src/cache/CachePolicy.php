@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** A cache policy.
  *
@@ -17,4 +17,4 @@ interface CachePolicy {
 	public function getExpirationTime($params);
 }
 
-?>
+

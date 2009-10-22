@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** A memory cache.
  *
@@ -88,4 +88,4 @@ final class MemoryCache extends Cache {
 	}
 }
 
-?>
+

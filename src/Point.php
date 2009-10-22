@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a geographical coordinate (latitude and longitude).
  *
@@ -52,4 +52,4 @@ class Point {
 	}
 }
 
-?>
+

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Provides different methods to query geo based information.
  *
@@ -97,4 +97,4 @@ class Geo {
 	}
 }
 
-?>
+

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a playlist and provides different methods to query playlist information.
  *
@@ -253,9 +253,9 @@ class Playlist {
 	public static function fromSimpleXMLElement(SimpleXMLElement $xml){
 		$tracks = array();
 
-		foreach($xml->trackList->children() as $track){
-			$tracks[] = Track::fromSimpleXMLElement($track);
-		}
+//		foreach($xml->trackList->children() as $track){
+//			$tracks[] = Track::fromSimpleXMLElement($track);
+//		}
 
 		return new Playlist(
 			Util::toInteger($xml->id),
@@ -270,4 +270,4 @@ class Playlist {
 	}
 }
 
-?>
+

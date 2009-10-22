@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Represents a user and provides different methods to query user information.
  *
@@ -367,7 +367,7 @@ class User extends Media {
 			$playlists[] = Playlist::fromSimpleXMLElement($playlist);
 		}
 
-		return $playlist;
+		return $playlists;
 	}
 
 	/** Get a list of the recent tracks listened to by this user. Indicates now playing track if the user is currently listening.
@@ -724,4 +724,4 @@ class User extends Media {
 	}
 }
 
-?>
+

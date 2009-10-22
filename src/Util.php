@@ -1,4 +1,4 @@
-<?
+<?php
 
 /** Provides utility methods to convert variables to a specified type.
  *
@@ -118,4 +118,4 @@ class Util {
 	}
 }
 
-?>
+
