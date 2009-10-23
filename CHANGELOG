@@ -1,4 +1,10 @@
-2009-10-31  Maksim Kotlyar <mkotlar@ukr.net>
+2009-10-23 Maksim Kotlyar <mkotlar@ukr.net>
+  * Change Playlist add new properties Duration, Url and change anotation to description
+  * Method Playlist::create should be called as signed.
+  * Add Radio class and method getPlaylist.
+  * Fix mistake from before commit in Caller::getInstance()
+
+2009-10-22  Maksim Kotlyar <mkotlar@ukr.net>
   * replace <? with <?php
   * remove ?>
   * Warning: Playlist::fromSimpleXMLElement() [playlist.fromsimplexmlelement]: Node no longer exists

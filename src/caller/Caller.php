@@ -41,7 +41,7 @@ abstract class Caller {
 	 * @static
 	 * @access	public
 	 */
-	public static function getInstance();
+	public static function getInstance() {}
 
 	/** Call an API method.
 	 *
@@ -167,4 +167,4 @@ abstract class Caller {
 	}
 }
 
-
+?>
