@@ -12,7 +12,7 @@ class Shout {
 	 * @var string
 	 * @access private
 	 */
-	private $auhtor;
+	private $author;
 
 	/** Shout date (unix timestamp).
 	 *
@@ -36,8 +36,8 @@ class Shout {
 	 *
 	 * @access public
 	 */
-	public function __construct($auhtor, $date, $text){
-		$this->auhtor = $author;
+	public function __construct($author, $date, $text){
+		$this->author = $author;
 		$this->date   = $date;
 		$thus->text   = $text;
 	}
