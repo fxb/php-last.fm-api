@@ -487,8 +487,8 @@ class Artist extends Media {
 			Util::toString($xml->url),
 			$images,
 			Util::toBoolean($xml->streamable),
-			($xml->stats)?Util::toInteger($xml->stats->listeners):0,
-			($xml->stats)?Util::toInteger($xml->stats->playcount):0,
+			Util::toInteger($xml->listeners),
+			Util::toInteger($xml->playcount),
 			$tags,
 			$similar,
 			($xml->bio)?Util::toString($xml->bio->summary):"", // TODO: Biography object
