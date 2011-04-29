@@ -34,7 +34,6 @@ final class CurlCaller extends Caller {
 	 */
 	private function __construct(){
 		$this->curl  = curl_init();
-		$this->cache = new DiskCache();
 
 		curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($this->curl, CURLOPT_USERAGENT, "PHP last.fm API (PHP/" . phpversion() . ")");
