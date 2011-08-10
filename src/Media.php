@@ -120,10 +120,11 @@ class Media {
 		if($size !== null and array_key_exists($size, $this->images)){
 			return $this->images[$size];
 		}
-
-		for($size = Media::IMAGE_ORIGINAL; $size > Media::IMAGE_UNKNOWN; $size--){
-			if(array_key_exists($size, $this->images)){
-				return $this->images[$size];
+		else if ($size === null){
+			for($size = Media::IMAGE_ORIGINAL; $size > Media::IMAGE_UNKNOWN; $size--){
+				if(array_key_exists($size, $this->images)){
+					return $this->images[$size];
+				}
 			}
 		}
 
