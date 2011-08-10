@@ -7,6 +7,13 @@
  * @version	1.0
  */
 class User extends Media {
+	/** The users real name.
+	 *
+	 * @var string
+	 * @access	private
+	 */
+	private $realName;
+
 	/** The users language.
 	 *
 	 * @var string
@@ -84,6 +91,7 @@ class User extends Media {
 	 *
 	 * @param string	$name		Username.
 	 * @param string	$url		Last.fm URL of this user.
+	 * @param string        $realName       Real name of this user.
 	 * @param string	$language	Language of this user.
 	 * @param string	$country	Country of this user.
 	 * @param integer	$age		Age of this user.
@@ -95,14 +103,16 @@ class User extends Media {
 	 * @param Track		$lastTrack	Last track the user played.
 	 * @param float		$match		Similarity value.
 	 * @param integer	$weight		Still no idea.
+	 * @param integer	$registered	Registration date of this user.
 	 *
 	 * @access	public
 	 */
-	public function __construct($name, $url, $language, $country, $age, $gender,
+	public function __construct($name, $realName, $url, $language, $country, $age, $gender,
 								$subscriber, $playCount, $playlists,
-								array $images, $lastTrack, $match, $weight){
+								array $images, $lastTrack, $match, $weight, $registered){
 		parent::__construct($name, '', $url, $images, 0, $playCount);
 
+        $this->realName   = $realName;
 		$this->language   = $language;
 		$this->country    = $country;
 		$this->age        = $age;
@@ -112,6 +122,16 @@ class User extends Media {
 		$this->lastTrack  = $lastTrack;
 		$this->match      = $match;
 		$this->weight     = $weight;
+		$this->registered = $registered;
+	}
+
+	/** Returns the users real name.
+	 *
+	 * @return	string	The users real name.
+	 * @access	public
+	 */
+	public function getRealName(){
+		return $this->realName;
 	}
 
 	/** Returns the users language.
@@ -193,6 +213,15 @@ class User extends Media {
 	 */
 	public function getWeight(){
 		return $this->weight;
+	}
+
+	/** Returns the registration date of this user.
+	 *
+	 * @return	integer	Registration date of this user.
+	 * @access	public
+	 */
+	public function getRegistered(){
+		return $this->registered;
 	}
 
 	/** Get a list of upcoming events that this user is attending. Easily integratable into calendars, using the iCal standard.
@@ -707,6 +736,7 @@ class User extends Media {
 
 		return new User(
 			Util::toString($xml->name),
+			Util::toString($xml->realname),
 			Util::toString($xml->url),
 			Util::toString($xml->lang),
 			Util::toString($xml->country),
@@ -719,7 +749,8 @@ class User extends Media {
 			($xml->recenttrack)?
 				Track::fromSimpleXMLElement($xml->recenttrack):null,
 			Util::toFloat($xml->match),
-			Util::toInteger($xml->weight)
+			Util::toInteger($xml->weight),
+			Util::toInteger($xml->registered->attributes()->unixtime)
 		);
 	}
 }
