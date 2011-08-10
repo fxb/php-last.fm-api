@@ -117,7 +117,7 @@ class Media {
 	 * @access	public
 	 */
 	public function getImage($size = null){
-		if($size !== null){
+		if($size !== null and array_key_exists($size, $this->images)){
 			return $this->images[$size];
 		}
 
