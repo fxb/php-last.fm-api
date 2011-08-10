@@ -750,7 +750,7 @@ class User extends Media {
 				Track::fromSimpleXMLElement($xml->recenttrack):null,
 			Util::toFloat($xml->match),
 			Util::toInteger($xml->weight),
-			Util::toInteger($xml->registered->attributes()->unixtime)
+			Util::toInteger($xml->registered['unixtime'])
 		);
 	}
 }
