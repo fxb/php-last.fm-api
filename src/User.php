@@ -91,7 +91,7 @@ class User extends Media {
 	 *
 	 * @param string	$name		Username.
 	 * @param string	$url		Last.fm URL of this user.
-	 * @param string        $realName       Real name of this user.
+	 * @param string	$realName	Real name of this user.
 	 * @param string	$language	Language of this user.
 	 * @param string	$country	Country of this user.
 	 * @param integer	$age		Age of this user.
