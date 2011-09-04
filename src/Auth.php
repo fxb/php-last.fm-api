@@ -34,16 +34,17 @@ class Auth {
 	 *
 	 * @param	string	$username	The last.fm username. (Required)
 	 * @param	string	$password	The last.fm password. (Required)
+     * @param   bool    $apply_md5  Set to false if the supplied password has already been hashed. (Optional)
 	 * @return	Session				A Session object.
 	 *
 	 * @static
 	 * @access	public
 	 * @throws	Error
 	 */
-	public static function getMobileSession($username, $password){
+	public static function getMobileSession($username, $password, $apply_md5 = true){
 		$xml = CallerFactory::getDefaultCaller()->signedCall('auth.getMobileSession', array(
 			'username'  => $username,
-			'authToken' => md5($username . md5($password))
+			'authToken' => md5($username . (($apply_md5) ? md5($password) : $password))
 		));
 
 		return Session::fromSimpleXMLElement($xml);
