@@ -6,7 +6,7 @@
  * @author  Felix Bruns <felixbruns@web.de>
  * @version	1.0
  */
-function __autoload($name){
+function lastfm_autoload($name){
 	if(stripos($name, 'Cache') !== false){
 		$filename = realpath(sprintf("%s/cache/%s.php", dirname(__FILE__), $name));
 	}
@@ -29,4 +29,4 @@ function __autoload($name){
 	}
 }
 
-
+spl_autoload_register('lastfm_autoload');
