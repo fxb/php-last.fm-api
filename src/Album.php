@@ -82,11 +82,11 @@ class Album extends Media {
 
 	/** Returns the release date of this album.
 	 *
-	 * @return	integer	Release date of this album as a unix timestamp.
+	 * @return	integer	Release date of this album.
 	 * @access	public
 	 */
 	public function getReleaseDate(){
-		return $this->releasedate;
+		return $this->releaseDate;
 	}
 
 	/** Returns the top tags of this album.
