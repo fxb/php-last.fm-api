@@ -219,7 +219,7 @@ class Album extends Media {
 			Util::toInteger($opensearch->totalResults),
 			Util::toInteger($opensearch->startIndex),
 			Util::toInteger($opensearch->itemsPerPage),
-			$artists
+			$albums
 		);
 	}
 
